@@ -14,7 +14,7 @@ var payloadGrid = [];
 var players = {};
 var myFirebaseRef = new Firebase("https://duckhunters.firebaseio.com/");
 var unusedColors = [
-    "red", "black", "yellow", "blue", "green", "purple", "gray", "pink"
+    "red", "black"
 ];
 var appConfig = {
     gridSize: 100,
@@ -59,11 +59,14 @@ socket.on('connection', function (client) {
                 var userC = pushdata();
             }
 
-            var playerColor = unusedColors.splice(0,1)[0];
-            if(!playerColor) {
+            console.log(unusedColors);
+            if(!unusedColors.length) {
                 //TODO: Handle overload
+                client.emit('roomFull');
                 return false;
             }
+
+            var playerColor = unusedColors.splice(0,1)[0];
 
             players[client.id] = {
                 id: client.id,
@@ -73,7 +76,7 @@ socket.on('connection', function (client) {
                     x: 0,
                     y: 0
                 },
-                color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
+                color: playerColor
             };
 
             var data = {
