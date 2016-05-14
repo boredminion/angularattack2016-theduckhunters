@@ -1,3 +1,12 @@
 If a first time user login with your name :)
-<input type="text" name="usename" placeholder="Username">
-<button type="button" value="Login">OK</button>
+
+<form (submit)="login()">
+    <div class="form-field">
+        <label> Enter Your Name:</label>
+        <input type="text" name="username" placeholder="Username">
+    </div>
+
+    <div class="form-field">
+        <button type="submit" value="begin">Begin</button>
+    </div>
+</form>

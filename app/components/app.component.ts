@@ -1,46 +1,41 @@
 import {Component} from '@angular/core';
+
+//router
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router-deprecated';
+
+//socket
 import {SocketService} from '../services/socket.service';
-import {SocketEvents} from '../services/socket_events.enum';
+
+//components
+import {LoginComponent} from './login.component';
+import {GameComponent} from './game.component';
+
 @Component({
     selector: "duck-hunter",
     template: `
         <h1>Duck Hunters</h1>
-        <p>Play the game.!!!!</p>
-        <a href="javascript:void(0)" (click)="login()">Login</a>
-        <a href="javascript:void(0)" (click)="joinGame()">Join the Game</a>
+         <h2>You are about to enter duck hunters</h2>
+        <router-outlet></router-outlet>
     `,
-    providers: [SocketService]
+    styleUrls: ['app/Templates/css/style.css'],
+    directives: [ROUTER_DIRECTIVES],
+    providers: ['SocketService', ROUTER_PROVIDERS]
 })
+
+@RouteConfig([
+    {
+        path: '/Login',
+        name: 'Login',
+        component: LoginComponent,
+        useAsDefault: true
+    },
+    {
+        path: '/Game',
+        name: 'Game',
+        component: GameComponent
+    }
+])
+
 export class AppComponent {
-    constructor(private socketService:SocketService) {
-
-    }
-
-    /**
-     * Logs the user in
-     */
-    public login() {
-
-        this.socketService.getSocket().emit(SocketEvents[SocketEvents.login], {
-            "name": "test"
-        }, function (playerInfo) {
-            console.log(playerInfo, " login success");
-        });
-
-    }
-
-    /**
-     * Allows user to join the game
-     */
-    public joinGame() {
-        this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {}, this.onUserJoinGameSuccess());
-    }
-
-    /**
-     * Callback when user successfully join the game
-     */
-    private onUserJoinGameSuccess() {
-        console.log("user successfully joined");
-    }
 
 }
