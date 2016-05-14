@@ -12,7 +12,7 @@ server.listen(port, function () {
 var payloadGrid = [];
 var players = {};
 var unusedColors = [
-    "red", "black", "yellow"
+    "red", "black", "yellow", "blue", "green"
 ];
 var appConfig = {
     gridSize: 100,
@@ -44,14 +44,14 @@ socket.on('connection', function (client) {
                 x: 1,
                 y: 1
             },
-            color: unusedColors.splice(0, 1)[0]
+            color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
         };
         var data = {
-            userInfo: players[client.id],
-            payloadGrid: payloadGrid
+            userInfo: players[client.id]
         };
         callback ? callback(data) : '';
         client.emit('loginSuccess', data);
+        socket.to('global').emit('playerConnected', players);
     });
 
     client.on('joinGame', function (data, callback) {
@@ -74,6 +74,7 @@ socket.on('connection', function (client) {
     });
 
     client.on('clientStateUpdate', function (data) {
+        console.log('clientStateUpdate', data);
         if (!players[client.id]) {
             return false;
         }
@@ -127,7 +128,6 @@ setInterval(function () {
                 };
                 changesPayload.push(gridChange);
             }
-            console.log(position2);
             player.position = position2;
 
         }
