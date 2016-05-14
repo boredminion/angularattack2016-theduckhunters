@@ -40,7 +40,7 @@ socket.on('connection', function (client) {
                 y: 1
             }
         };
-        callback ? callback() : '';
+        callback ? callback(players[client.id]) : '';
         client.emit('loginSuccess', players[client.id]);
     });
 
