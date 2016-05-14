@@ -11,11 +11,11 @@ server.listen(port, function () {
 
 var payloadGrid = [];
 var players = {};
-var unusedColors=[
-    "red","black","yellow"
+var unusedColors = [
+    "red", "black", "yellow", "blue", "green"
 ];
 var appConfig = {
-    gridSize: 200,
+    gridSize: 100,
     distance: 2
 };
 
@@ -44,14 +44,14 @@ socket.on('connection', function (client) {
                 x: 1,
                 y: 1
             },
-            color: unusedColors.splice(0,1)[0]
+            color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
         };
         var data = {
-            userInfo: players[client.id],
-            payloadGrid: payloadGrid
+            userInfo: players[client.id]
         };
         callback ? callback(data) : '';
         client.emit('loginSuccess', data);
+        socket.to('global').emit('playerConnected', players);
     });
 
     client.on('joinGame', function (data, callback) {
@@ -67,13 +67,14 @@ socket.on('connection', function (client) {
         callback ? callback(data) : '';
         client.emit('joinGameSuccess', data);
 
-        setTimeout(function() {
+        setTimeout(function () {
             client.join('global');
 
-        },1000)
+        }, 1000)
     });
 
     client.on('clientStateUpdate', function (data) {
+        console.log('clientStateUpdate', data);
         if (!players[client.id]) {
             return false;
         }
@@ -113,17 +114,20 @@ setInterval(function () {
             var startY = (position1.y < position2.y) ? position1.y : position2.y;
             var endX = (position1.x > position2.x) ? position1.x : position2.x;
             var endY = (position1.y > position2.y) ? position1.y : position2.y;
-            for (i = startX; i <= endX; i++) {
-                for (j = startY; j <= endY; j++) {
-                    payloadGrid[i][j] = playerId;
-                    var gridChange = {
-                        playerId: playerId,
-                        gridCoordinates: [i, j]
-                    };
-                    changesPayload.push(gridChange);
+            while (!(startX === endX && startY === endY)) {
+                if (startX < endX) {
+                    startX++;
                 }
+                if (startY < endY) {
+                    startY++;
+                }
+                payloadGrid[startX][startY] = playerId;
+                var gridChange = {
+                    playerId: playerId,
+                    gridCoordinates: [startX, startY]
+                };
+                changesPayload.push(gridChange);
             }
-            console.log(position2);
             player.position = position2;
 
         }
@@ -135,7 +139,7 @@ setInterval(function () {
         for (var j = 0; j < appConfig.gridSize; j++) {
             // payloadGrid[i][j] = '';
             var gridUser = payloadGrid[i][j];
-            if(playerScoreMap[gridUser]) {
+            if (playerScoreMap[gridUser]) {
                 playerScoreMap[gridUser]++;
             } else {
                 playerScoreMap[gridUser] = 1;
@@ -151,13 +155,16 @@ setInterval(function () {
                 player: players[playerId]
             })
         }
-    };
-    playerRankings = playerRankings.sort(function(a,b){return a.score - b.score});
+    }
+    ;
+    playerRankings = playerRankings.sort(function (a, b) {
+        return a.score - b.score
+    });
 
     // console.log("emitting", changesPayload)
     socket.to('global').emit('gameStateUpdate', {playerRankings: playerRankings, changesPayload: changesPayload});
 
-}, 200);
+}, 60);
 
 setInterval(function () {
     console.log('updating database');
