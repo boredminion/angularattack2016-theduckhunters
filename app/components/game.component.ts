@@ -31,6 +31,7 @@ export class GameComponent {
         this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
             var changedPayload = updatedInfo.changesPayload;
             this.playerRatings = updatedInfo.playerRankings;
+            console.log(this.playerRatings);
             for (var i = 0; i < changedPayload.length; i++) {
                 var gridCoordinates = changedPayload[i].gridCoordinates;
                 this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]] = changedPayload[i].playerId;

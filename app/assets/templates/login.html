@@ -1,9 +1,12 @@
-If a first time user login with your name :)
+<p>If a first time user login with your name :)</p>
 
+<p *ngIf="playerFull" class="error">{{playerFull}}</p>
 <form (submit)="login()">
     <div class="form-field">
         <label> Enter Your Name:</label>
-        <input type="text" name="username" placeholder="Username">
+        <input type="text" name="username" placeholder="Username" [(ngModel)]="username">
+        <label> Enter Your Name:</label>
+        <input type="password" name="password" [(ngModel)]="userPassword">
     </div>
 
     <div class="form-field">
