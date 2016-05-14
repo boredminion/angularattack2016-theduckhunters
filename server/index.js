@@ -51,14 +51,12 @@ socket.on('connection', function (client) {
 
         function userExistsCallback(id, exists){
             if(exists){
-                //TODO: return to game menu
                 id.on("value", function(snapshot) {
                     user = snapshot.val();
                 })
             }
             else{
                 var userC = pushdata();
-                // TODO: return the latest usercode to the user and return to game menu
             }
             players[client.id] = {
                 id: client.id,
@@ -70,7 +68,6 @@ socket.on('connection', function (client) {
                 },
                 color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
             };
-            console.log(players[client.id])
             var data = {
                 userInfo: players[client.id]
             };
@@ -92,7 +89,6 @@ socket.on('connection', function (client) {
                     ref = new Firebase("https://duckhunters.firebaseio.com/"+ key);
                 }
             });
-            console.log(exists);
             userExistsCallback(ref, exists);
         });
     });
@@ -207,18 +203,5 @@ setInterval(function () {
 }, 60);
 
 setInterval(function () {
-    //myFirebaseRef.push({
-    //    id: "10",
-    //    username: "Firebase",
-    //    usercode: "sss",
-    //    score: 9990,
-    //
-    //});
-    //myFirebaseRef.child("username").on("value", function(snapshot) {
-    //    console.log(snapshot.val());  // Alerts "San Francisco"
-    //});
-    //myFirebaseRef.remove(function(error) {
-    //    alert(error ? "Uh oh!" : "Success!");
-    //});
     console.log('updating database');
 }, 10000);
