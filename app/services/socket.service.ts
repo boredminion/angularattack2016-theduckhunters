@@ -13,37 +13,43 @@ export class SocketService {
         this.socket = io.connect(this.socketUrl);
 
         this.socket.on(SocketEvents[SocketEvents.connect], () => {
-            console.log('connected');
+            this.onConnect();
         });
-        this.socket.on(SocketEvents[SocketEvents.connectionSuccess], ()=> {
-            console.log("connection success");
+        this.socket.on(SocketEvents[SocketEvents.connectionSuccess], (data)=> {
+            this.onConnectionSuccess(data);
         });
-        this.socket.on(SocketEvents[SocketEvents.login], ()=> {
-            console.log("login");
+
+        this.socket.on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
+            this.onGameStateUpdate(updatedInfo);
         });
 
         this.socket.on(SocketEvents[SocketEvents.disconnect], () => {
-            console.log('disconnected');
+            this.onDisconnect();
         });
+
     }
 
-    public broadcastEvent(eventName:SocketEvents, data) {
-        this.socket.emit(SocketEvents[eventName], data);
+    public getSocket() {
+        return this.socket;
     }
 
     private onConnect() {
+        console.log("connected")
         //TODO on socket connect
     }
 
-    private onConnectionSuccess() {
+    private onConnectionSuccess(data) {
+        console.log(data);
         //TODO on connection success event
     }
 
-    private onLogin() {
-        //TODO on successful login
+    private onGameStateUpdate(updatedInfo) {
+        console.log(updatedInfo, "updated info check");
+        //TODO on game state update handler
     }
 
     private onDisconnect() {
+        console.log("disconnected");
         //TODO on disconnect from socket
     }
 
