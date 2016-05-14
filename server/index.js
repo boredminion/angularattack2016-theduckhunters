@@ -14,7 +14,7 @@ var payloadGrid = [];
 var players = {};
 var myFirebaseRef = new Firebase("https://duckhunters.firebaseio.com/");
 var unusedColors = [
-    "red", "black", "yellow", "blue", "green"
+    "red", "black", "yellow", "blue", "green", "purple", "gray", "pink"
 ];
 var appConfig = {
     gridSize: 100,
@@ -58,6 +58,13 @@ socket.on('connection', function (client) {
             else{
                 var userC = pushdata();
             }
+
+            var playerColor = unusedColors.splice(0,1)[0];
+            if(!playerColor) {
+                //TODO: Handle overload
+                return false;
+            }
+
             players[client.id] = {
                 id: client.id,
                 userInfo: user,
@@ -68,6 +75,7 @@ socket.on('connection', function (client) {
                 },
                 color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
             };
+
             var data = {
                 userInfo: players[client.id]
             };
@@ -119,6 +127,9 @@ socket.on('connection', function (client) {
 
     client.on('disconnect', function () {
         console.log('Phew !! Someone just disconnnect..');
+        if(players[client.id]) {
+            unusedColors.push(players[client.id].color);
+        }
         delete players[client.id];
     });
 
@@ -198,9 +209,9 @@ setInterval(function () {
     });
 
     // console.log("emitting", changesPayload)
-    socket.to('global').emit('gameStateUpdate', {playerRankings: playerRankings, changesPayload: changesPayload});
+    socket.to('global').emit('gameStateUpdate', {playerRankings: playerRankings, changesPayload: changesPayload, players:players});
 
-}, 60);
+}, 200);
 
 setInterval(function () {
     console.log('updating database');
