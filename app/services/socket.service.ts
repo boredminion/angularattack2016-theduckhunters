@@ -19,10 +19,6 @@ export class SocketService {
             this.onConnectionSuccess(data);
         });
 
-        this.socket.on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
-            this.onGameStateUpdate(updatedInfo);
-        });
-
         this.socket.on(SocketEvents[SocketEvents.disconnect], () => {
             this.onDisconnect();
         });
@@ -41,11 +37,6 @@ export class SocketService {
     private onConnectionSuccess(data) {
         console.log(data);
         //TODO on connection success event
-    }
-
-    private onGameStateUpdate(updatedInfo) {
-        console.log(updatedInfo, "updated info check");
-        //TODO on game state update handler
     }
 
     private onDisconnect() {

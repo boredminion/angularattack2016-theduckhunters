@@ -7,5 +7,6 @@ export enum SocketEvents{
     connectionSuccess,
     login,
     joinGame,
-    gameStateUpdate
+    gameStateUpdate,
+    playerConnected
 }
