@@ -12,16 +12,10 @@ server.listen(port, function () {
 
 var payloadGrid = [];
 var players = {};
-<<<<<<< HEAD
-
 var myFirebaseRef = new Firebase("https://duckhunters.firebaseio.com/");
-
-
-=======
 var unusedColors = [
     "red", "black", "yellow", "blue", "green"
 ];
->>>>>>> e6cf1470c4838a9af3da8bff2aa9797c417640bb
 var appConfig = {
     gridSize: 100,
     distance: 2
@@ -42,7 +36,6 @@ socket.on('connection', function (client) {
     client.emit('connectionSuccess', appConfig);
 
     client.on('login', function (userInfo, callback) {
-<<<<<<< HEAD
         var user = userInfo;
         function pushdata(){
             var randomReference= myFirebaseRef.push();
@@ -68,15 +61,22 @@ socket.on('connection', function (client) {
                 // TODO: return the latest usercode to the user and return to game menu
             }
             players[client.id] = {
+                id: client.id,
                 userInfo: user,
-                angle: 10,
+                angle: 20,
                 position: {
-                    x: 1,
-                    y: 1
-                }
+                    x: 0,
+                    y: 0
+                },
+                color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
             };
-            callback ? callback(players[client.id]) : '';
-            client.emit('loginSuccess', players[client.id]);
+            console.log(players[client.id])
+            var data = {
+                userInfo: players[client.id]
+            };
+            callback ? callback(data) : '';
+            client.emit('loginSuccess', data);
+            socket.to('global').emit('playerConnected', players);
         }
 
         myFirebaseRef.once("value", function (allMessagesSnapshot, cb) {
@@ -92,31 +92,9 @@ socket.on('connection', function (client) {
                     ref = new Firebase("https://duckhunters.firebaseio.com/"+ key);
                 }
             });
+            console.log(exists);
             userExistsCallback(ref, exists);
         });
-
-
-
-=======
-        console.log("login");
-        players[client.id] = {
-            id: client.id,
-            userInfo: userInfo,
-            angle: 45,
-            position: {
-                x: 0,
-                y: 0
-            },
-            color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
-        };
-        console.log(players[client.id])
-        var data = {
-            userInfo: players[client.id]
-        };
-        callback ? callback(data) : '';
-        client.emit('loginSuccess', data);
-        socket.to('global').emit('playerConnected', players);
->>>>>>> e6cf1470c4838a9af3da8bff2aa9797c417640bb
     });
 
     client.on('joinGame', function (data, callback) {
