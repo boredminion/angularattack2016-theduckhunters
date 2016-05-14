@@ -6,7 +6,7 @@ import {SocketEvents} from '../services/socket_events.enum';
 
 @Component({
     templateUrl: 'app/assets/templates/game.html',
-    styleUrls: ['app/assets/css/style.css']
+    styleUrls: ['app/assets/css/style.css'],
 })
 
 export class GameComponent {

@@ -19,18 +19,18 @@ import {GameComponent} from './game.component';
     `,
     styleUrls: ['app/assets/css/style.css'],
     directives: [ROUTER_DIRECTIVES],
-    providers: ['SocketService', ROUTER_PROVIDERS]
+    providers: [SocketService, ROUTER_PROVIDERS]
 })
 
 @RouteConfig([
     {
-        path: '/Login',
+        path: '/login',
         name: 'Login',
         component: LoginComponent,
         useAsDefault: true
     },
     {
-        path: '/Game',
+        path: '/game',
         name: 'Game',
         component: GameComponent
     }

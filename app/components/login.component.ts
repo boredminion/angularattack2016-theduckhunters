@@ -6,7 +6,7 @@ import {SocketService} from '../services/socket.service';
 import {SocketEvents} from '../services/socket_events.enum';
 
 @Component({
-    templateUrl: 'app/assets/templates/game.html',
+    templateUrl: 'app/assets/templates/login.html',
     styleUrls: ['app/assets/css/style.css']
 })
 
