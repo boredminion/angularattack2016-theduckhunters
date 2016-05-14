@@ -3,22 +3,23 @@ import {Component} from '@angular/core';
 //router
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router-deprecated';
 
-//socket
+
+//service
 import {SocketService} from '../services/socket.service';
 
 //components
 import {LoginComponent} from './login.component';
 import {GameComponent} from './game.component';
+import {TitleComponent} from './title.component';
 
 @Component({
     selector: "duck-hunter",
     template: `
-        <h1>Duck Hunters</h1>
-         <h2>You are about to enter duck hunters</h2>
+        <duck-title></duck-title>
         <router-outlet></router-outlet>
     `,
     styleUrls: ['app/assets/css/style.css'],
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, TitleComponent],
     providers: [SocketService, ROUTER_PROVIDERS]
 })
 

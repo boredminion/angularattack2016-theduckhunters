@@ -1,0 +1,12 @@
+<div *ngIf="playerRatings">
+    <h2>
+        Scoreboard
+    </h2>
+    <ul>
+        <li *ngFor="#rating of playerRatings">
+            {{rating.score}}
+        </li>
+    </ul>
+
+    <p>You lose!!!!</p>
+</div>
