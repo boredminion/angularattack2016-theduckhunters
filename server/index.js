@@ -41,8 +41,8 @@ socket.on('connection', function (client) {
             userInfo: userInfo,
             angle: 45,
             position: {
-                x: 1,
-                y: 1
+                x: 0,
+                y: 0
             },
             color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
         };
