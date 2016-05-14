@@ -16,12 +16,15 @@ export class GameComponent {
     private players;
 
     constructor(private socketService:SocketService) {
-        this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate],(updatedInfo)=> {
-            var changedPayload=updatedInfo.changesPayload;
-            for(var i=0;i<changedPayload.length;i++){
-                var gridCoordinates=changedPayload[i].gridCoordinates;
-                    this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]]=changedPayload[i].playerId;
+        this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
+            var changedPayload = updatedInfo.changesPayload;
+            for (var i = 0; i < changedPayload.length; i++) {
+                var gridCoordinates = changedPayload[i].gridCoordinates;
+                this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]] = changedPayload[i].playerId;
             }
+        });
+        this.socketService.getSocket().on(SocketEvents[SocketEvents.playerConnected], (playerList)=> {
+            this.players = playerList;
         });
     }
 
@@ -30,12 +33,11 @@ export class GameComponent {
      */
     public joinGame() {
         this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {}, (response)=> {
-             console.log("1111", response.payloadGrid)
             this.payloadGrid = response.payloadGrid;
             this.userInfo = response.userInfo;
             this.players = response.players;
             console.log("user successfully joined");
         });
     }
-    
+
 }
