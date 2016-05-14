@@ -8,14 +8,15 @@ table.grid {
 }
 
 .grid-container {
-    background:orange;
-    display:inline-block;
+    background: orange;
+    display: inline-block;
 }
 
 table.grid td {
     border-radius: 50%;
     height: 5px;
     width: 5px;
-    background:transparent;
-    color:transparent;
+    background: transparent;
+    color: transparent;
+    box-shadow: 0 0 3px 5px
 }
