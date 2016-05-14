@@ -17,13 +17,8 @@ export class GameComponent {
      * Allows user to join the game
      */
     public joinGame() {
-        this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {}, this.onUserJoinGameSuccess());
-    }
-
-    /**
-     * Callback when user successfully join the game
-     */
-    private onUserJoinGameSuccess() {
-        console.log("user successfully joined");
+        this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {}, ()=>{
+            console.log("user successfully joined");
+        });
     }
 }
