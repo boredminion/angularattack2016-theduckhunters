@@ -1,18 +1,21 @@
-.grid table {
+* {
     margin: 0;
     padding: 0;
 }
 
-.grid table tr {
-    margin: 0;
-    padding: 0;
+table.grid {
+    border: 0;
 }
 
-.grid table td {
-    margin: 0;
-    padding: 0;
+.grid-container {
+    background:orange;
+    display:inline-block;
+}
+
+table.grid td {
     border-radius: 50%;
     height: 5px;
     width: 5px;
-    background-color: blue;
+    background:transparent;
+    color:transparent;
 }
