@@ -33,7 +33,7 @@ System.register(['@angular/core', '../services/socket.service', '../services/soc
                  */
                 AppComponent.prototype.login = function () {
                     this.socketService.getSocket().emit(socket_events_enum_1.SocketEvents[socket_events_enum_1.SocketEvents.login], {
-                        "name": "test"
+                        "usercode": "DH-KHiuufeMWMO6PLxnFCY" // put some code here
                     }, function (playerInfo) {
                         console.log(playerInfo, " login success");
                     });

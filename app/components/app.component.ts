@@ -22,7 +22,7 @@ export class AppComponent {
     public login() {
 
         this.socketService.getSocket().emit(SocketEvents[SocketEvents.login], {
-            "name": "test"
+            "usercode": "DH-KHiuufeMWMO6PLxnFCY" // put some code here
         }, function (playerInfo) {
             console.log(playerInfo, " login success");
         });
