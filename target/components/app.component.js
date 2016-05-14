@@ -34,7 +34,7 @@ System.register(['@angular/core', '@angular/router-deprecated', './login.compone
                     core_1.Component({
                         selector: "duck-hunter",
                         template: "\n        <h1>Duck Hunters</h1>\n         <h2>You are about to enter duck hunters</h2>\n        <router-outlet></router-outlet>\n    ",
-                        styleUrls: ['app/Templates/css/style.css'],
+                        styleUrls: ['app/assets/css/style.css'],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES],
                         providers: ['SocketService', router_deprecated_1.ROUTER_PROVIDERS]
                     }),

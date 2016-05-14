@@ -17,7 +17,7 @@ import {GameComponent} from './game.component';
          <h2>You are about to enter duck hunters</h2>
         <router-outlet></router-outlet>
     `,
-    styleUrls: ['app/Templates/css/style.css'],
+    styleUrls: ['app/assets/css/style.css'],
     directives: [ROUTER_DIRECTIVES],
     providers: ['SocketService', ROUTER_PROVIDERS]
 })
