@@ -35,7 +35,6 @@ import {GameComponent} from './game.component';
         component: GameComponent
     }
 ])
-
 export class AppComponent {
 
 }

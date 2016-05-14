@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var socket = require('socket.io')(server);
+var Firebase = require('firebase');
 var port = process.env.PORT || 3000;
 server.listen(port, function () {
     console.log('Server listening at port %d', port);
@@ -11,6 +12,7 @@ server.listen(port, function () {
 
 var payloadGrid = [];
 var players = {};
+var myFirebaseRef = new Firebase("https://duckhunters.firebaseio.com/");
 var unusedColors = [
     "red", "black", "yellow", "blue", "green"
 ];
@@ -31,28 +33,64 @@ var playerRankings = [];
 socket.on('connection', function (client) {
 
     console.log("Yay ! new client has connected");
-
     client.emit('connectionSuccess', appConfig);
 
     client.on('login', function (userInfo, callback) {
-        console.log("login");
-        players[client.id] = {
-            id: client.id,
-            userInfo: userInfo,
-            angle: 45,
-            position: {
-                x: 0,
-                y: 0
-            },
-            color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
-        };
-        console.log(players[client.id])
-        var data = {
-            userInfo: players[client.id]
-        };
-        callback ? callback(data) : '';
-        client.emit('loginSuccess', data);
-        socket.to('global').emit('playerConnected', players);
+        var user = userInfo;
+        function pushdata(){
+            var randomReference= myFirebaseRef.push();
+
+            user = {
+                id: "1",
+                usercode: 'DH' + randomReference.key(),
+                score: 1212,
+            };
+            randomReference.set(user);
+            return user.usercode;
+        }
+
+        function userExistsCallback(id, exists){
+            if(exists){
+                id.on("value", function(snapshot) {
+                    user = snapshot.val();
+                })
+            }
+            else{
+                var userC = pushdata();
+            }
+            players[client.id] = {
+                id: client.id,
+                userInfo: user,
+                angle: 20,
+                position: {
+                    x: 0,
+                    y: 0
+                },
+                color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
+            };
+            var data = {
+                userInfo: players[client.id]
+            };
+            callback ? callback(data) : '';
+            client.emit('loginSuccess', data);
+            socket.to('global').emit('playerConnected', players);
+        }
+
+        myFirebaseRef.once("value", function (allMessagesSnapshot, cb) {
+            var exists = false;
+            var ref;
+            allMessagesSnapshot.forEach(function (messageSnapshot) {
+
+                // Will be called with a messageSnapshot for each child under the /messages/ node
+                var key = messageSnapshot.key();  // e.g. "-JqpIO567aKezufthrn8"
+                var uid = messageSnapshot.child("usercode").val();  // e.g. "barney"
+                if (uid === userInfo.usercode){
+                    exists = true;
+                    ref = new Firebase("https://duckhunters.firebaseio.com/"+ key);
+                }
+            });
+            userExistsCallback(ref, exists);
+        });
     });
 
     client.on('joinGame', function (data, callback) {

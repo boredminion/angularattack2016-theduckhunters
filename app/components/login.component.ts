@@ -20,7 +20,7 @@ export class LoginComponent {
     public login() {
 
         this.socketService.getSocket().emit(SocketEvents[SocketEvents.login], {
-            "name": "test"
+            "usercode": "DH-KHj-Qv0Cya7agYwbazS"
         }, (playerInfo) => {
             this.router.navigate(['Game']);
             console.log(playerInfo, " login success");
