@@ -40,7 +40,7 @@ export class AppComponent {
      * Callback when user successfully join the game
      */
     private onUserJoinGameSuccess() {
-        console.log("asdads")
+        console.log("user successfully joined");
     }
 
 }
