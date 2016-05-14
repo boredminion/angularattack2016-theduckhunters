@@ -46,6 +46,7 @@ socket.on('connection', function (client) {
             },
             color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
         };
+        console.log(players[client.id])
         var data = {
             userInfo: players[client.id]
         };
@@ -67,10 +68,7 @@ socket.on('connection', function (client) {
         callback ? callback(data) : '';
         client.emit('joinGameSuccess', data);
 
-        setTimeout(function () {
-            client.join('global');
-
-        }, 1000)
+        client.join('global');
     });
 
     client.on('clientStateUpdate', function (data) {
@@ -99,8 +97,8 @@ setInterval(function () {
             //Update player position and add changed grid to changesPayload
             var player = players[playerId];
             var position1 = player.position;
-            var newX = parseInt(position1.x + (appConfig.distance * Math.cos(player.angle)));
-            var newY = parseInt(position1.y + (appConfig.distance * Math.sin(player.angle)));
+            var newX = Math.round(position1.x + (appConfig.distance * Math.cos(player.angle)));
+            var newY = Math.round(position1.y + (appConfig.distance * Math.sin(player.angle)));
             newX = newX <= (appConfig.gridSize - 1) ? newX : (appConfig.gridSize - 1)
             newX = newX >= 0 ? newX : 0
             newY = newY >= 0 ? newY : 0;
