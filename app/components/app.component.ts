@@ -5,9 +5,6 @@ import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router-
 
 //socket
 import {SocketService} from '../services/socket.service';
-<<<<<<< HEAD
-import {SocketEvents} from '../services/socket_events.enum';
-=======
 
 //components
 import {LoginComponent} from './login.component';
@@ -38,36 +35,6 @@ import {GameComponent} from './game.component';
         component: GameComponent
     }
 ])
-
-<<<<<<< HEAD
-    /**
-     * Logs the user in
-     */
-    public login() {
-
-        this.socketService.getSocket().emit(SocketEvents[SocketEvents.login], {
-            "usercode": "DH-KHiuufeMWMO6PLxnFCY" // put some code here
-        }, function (playerInfo) {
-            console.log(playerInfo, " login success");
-        });
-
-    }
-
-    /**
-     * Allows user to join the game
-     */
-    public joinGame() {
-        this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {}, this.onUserJoinGameSuccess());
-    }
-
-    /**
-     * Callback when user successfully join the game
-     */
-    private onUserJoinGameSuccess() {
-        console.log("user successfully joined");
-    }
-=======
 export class AppComponent {
->>>>>>> e6cf1470c4838a9af3da8bff2aa9797c417640bb
 
 }
