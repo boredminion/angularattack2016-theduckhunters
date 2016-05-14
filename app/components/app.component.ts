@@ -18,7 +18,7 @@ import {GameComponent} from './game.component';
         <router-outlet></router-outlet>
     `,
     styleUrls: ['app/assets/css/style.css'],
-    directives: [ROUTER_DIRECTIVES,LoginComponent,GameComponent],
+    directives: [ROUTER_DIRECTIVES],
     providers: [SocketService, ROUTER_PROVIDERS]
 })
 
@@ -37,7 +37,5 @@ import {GameComponent} from './game.component';
 ])
 
 export class AppComponent {
-    payloadGrid:string[][]=[
-        ['1'],['1'],
-        ['1'],    ];
+
 }
