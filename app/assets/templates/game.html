@@ -3,10 +3,11 @@
     <a href="javascript:void(0)" (click)="joinGame()">Join the Game</a>
 </div>
 <div></div>
-<table>
+<table class="grid">
     <tr *ngFor="#row of payloadGrid; #i=index">
-        <td *ngFor="#column of row; #j=index">
-            {{cursor}}test
+        <td  *ngFor="#column of row; #j=index" [style.background-color]="'#fff' && players[ payloadGrid[i][j] ] && players[ payloadGrid[i][j] ].color">
         </td>
     </tr>
 </table>
+
+{{payloadGrid}}

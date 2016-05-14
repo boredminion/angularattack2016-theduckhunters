@@ -6,8 +6,7 @@ import {SocketEvents} from '../services/socket_events.enum';
 
 @Component({
     templateUrl: 'app/assets/templates/game.html',
-    styleUrls: ['app/assets/css/style.css'],
-    changeDetection:ChangeDetectionStrategy.OnPush
+    styleUrls: ['app/assets/css/style.css']
 })
 
 export class GameComponent {
@@ -17,6 +16,13 @@ export class GameComponent {
     private players;
 
     constructor(private socketService:SocketService) {
+        this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate],(updatedInfo)=> {
+            var changedPayload=updatedInfo.changesPayload;
+            for(var i=0;i<changedPayload.length;i++){
+                var gridCoordinates=changedPayload[i].gridCoordinates;
+                    this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]]=changedPayload[i].playerId;
+            }
+        });
     }
 
     /**
@@ -24,6 +30,7 @@ export class GameComponent {
      */
     public joinGame() {
         this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {}, (response)=> {
+             console.log("1111", response.payloadGrid)
             this.payloadGrid = response.payloadGrid;
             this.userInfo = response.userInfo;
             this.players = response.players;
