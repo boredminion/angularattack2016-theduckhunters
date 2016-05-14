@@ -24,7 +24,8 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: "duck-hunter",
-                        template: "\n        <h1>Duck Hunters</h1>\n        <p>Play the game.!!!!</p>\n    "
+                        templateUrl: 'app/Templates/login.html',
+                        styleUrls: ['app/Templates/css/style.css']
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);

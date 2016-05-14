@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 
 @Component({
     selector: "duck-hunter",
-    template: `
-        <h1>Duck Hunters</h1>
-        <p>Play the game.!!!!</p>
-    `
+    templateUrl: 'app/Templates/login.html',
+    styleUrls: ['app/Templates/css/style.css']
+
+
 })
 export class AppComponent {
     constructor() {
