@@ -29,6 +29,7 @@ export class GameComponent {
     public playersArray = [];
     public colors:string[];
     public color:string;
+    public broadcastMessage:string;
 
     constructor(private socketService:SocketService) {
 
@@ -45,6 +46,11 @@ export class GameComponent {
             this.players = playerList;
         });
         this.getColors();
+
+        this.socketService.getSocket().on(SocketEvents[SocketEvents.messageBroadcast], (message)=> {
+            console.log(message)
+            this.broadcastMessage = message;
+        })
 
     }
 

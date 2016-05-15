@@ -1,9 +1,18 @@
 'use strict';
 
 var express = require('express');
+
 var app = express();
-var server = require('http').createServer(app);
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    next();
+});
 app.use(express.static('public'));
+
+var server = require('http').createServer(app);
+
 var socket = require('socket.io')(server);
 var randomColor = require('randomcolor');
 var Firebase = require('firebase');
@@ -148,6 +157,7 @@ socket.on('connection', function (client) {
             };
             playerPopulation++;
             socket.to('global').emit('playerConnected', players);
+            socket.to('global').emit('messageBroadcast', player.userInfo.wc + " has joined the game.");
             callback ? callback(data) : '';
             client.emit('joinGameSuccess', data);
             client.join('global');
@@ -172,6 +182,7 @@ socket.on('connection', function (client) {
         }
         console.log('Phew !! Someone just disconnnect..');
         socket.to('global').emit('playerDisconnected', players);
+        socket.to('global').emit('messageBroadcast', player.userInfo.wc + " has disconnected from the game.");
     });
 
 });
