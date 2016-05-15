@@ -18,7 +18,6 @@ import {TitleComponent} from './title.component';
         <duck-title></duck-title>
         <router-outlet></router-outlet>
     `,
-    styleUrls: ['app/assets/css/style.css'],
     directives: [ROUTER_DIRECTIVES, TitleComponent],
     providers: [SocketService, ROUTER_PROVIDERS]
 })
