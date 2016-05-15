@@ -37,27 +37,25 @@ socket.on('connection', function (client) {
 
     client.on('login', function (userInfo, callback) {
         var user = userInfo;
-        function pushdata(){
-            var randomReference= myFirebaseRef.push();
-
-            user = {
-                id: "1",
-                usercode: 'DH' + randomReference.key(),
-                score: 1212,
-            };
+        function pushdata(user) {
+            var randomReference = myFirebaseRef.push();
+            user.id=client.id;
+            user.usercode='DH' + randomReference.key();
+            user.score=1212;
             randomReference.set(user);
             return user.usercode;
         }
 
-        function userExistsCallback(id, exists){
-            if(exists){
-                id.on("value", function(snapshot) {
+        function userExistsCallback(id, exists) {
+            if (exists) {
+                id.on("value", function (snapshot) {
                     user = snapshot.val();
                 })
             }
-            else{
-                var userC = pushdata();
+            else {
+                pushdata(user);
             }
+
             players[client.id] = {
                 id: client.id,
                 userInfo: user,
@@ -66,7 +64,7 @@ socket.on('connection', function (client) {
                     x: 0,
                     y: 0
                 },
-                color: unusedColors.splice(0,1)[0] ? unusedColors.splice(0,1)[0] : "white"
+                color: unusedColors.splice(0, 1)[0] ? unusedColors.splice(0, 1)[0] : "white"
             };
             var data = {
                 userInfo: players[client.id]
@@ -84,9 +82,9 @@ socket.on('connection', function (client) {
                 // Will be called with a messageSnapshot for each child under the /messages/ node
                 var key = messageSnapshot.key();  // e.g. "-JqpIO567aKezufthrn8"
                 var uid = messageSnapshot.child("usercode").val();  // e.g. "barney"
-                if (uid === userInfo.usercode){
+                if (uid === userInfo.usercode) {
                     exists = true;
-                    ref = new Firebase("https://duckhunters.firebaseio.com/"+ key);
+                    ref = new Firebase("https://duckhunters.firebaseio.com/" + key);
                 }
             });
             userExistsCallback(ref, exists);

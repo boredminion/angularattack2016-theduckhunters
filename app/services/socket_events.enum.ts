@@ -9,5 +9,6 @@ export enum SocketEvents{
     joinGame,
     gameStateUpdate,
     playerConnected,
-    clientStateUpdate
+    clientStateUpdate,
+    roomFull
 }
