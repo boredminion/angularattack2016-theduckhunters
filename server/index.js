@@ -37,8 +37,9 @@ socket.on('connection', function (client) {
 
     client.on('login', function (userInfo, callback) {
         var user = userInfo;
-        function pushdata(){
-            var randomReference= myFirebaseRef.push();
+
+        function pushdata() {
+            var randomReference = myFirebaseRef.push();
 
             user = {
                 id: "1",
@@ -49,24 +50,24 @@ socket.on('connection', function (client) {
             return user.usercode;
         }
 
-        function userExistsCallback(id, exists){
-            if(exists){
-                id.on("value", function(snapshot) {
+        function userExistsCallback(id, exists) {
+            if (exists) {
+                id.on("value", function (snapshot) {
                     user = snapshot.val();
                 })
             }
-            else{
+            else {
                 var userC = pushdata();
             }
 
             console.log(unusedColors);
-            if(!unusedColors.length) {
+            if (!unusedColors.length) {
                 //TODO: Handle overload
                 client.emit('roomFull');
                 return false;
             }
 
-            var playerColor = unusedColors.splice(0,1)[0];
+            var playerColor = unusedColors.splice(0, 1)[0];
 
             players[client.id] = {
                 id: client.id,
@@ -95,9 +96,9 @@ socket.on('connection', function (client) {
                 // Will be called with a messageSnapshot for each child under the /messages/ node
                 var key = messageSnapshot.key();  // e.g. "-JqpIO567aKezufthrn8"
                 var uid = messageSnapshot.child("usercode").val();  // e.g. "barney"
-                if (uid === userInfo.usercode){
+                if (uid === userInfo.usercode) {
                     exists = true;
-                    ref = new Firebase("https://duckhunters.firebaseio.com/"+ key);
+                    ref = new Firebase("https://duckhunters.firebaseio.com/" + key);
                 }
             });
             userExistsCallback(ref, exists);
@@ -130,10 +131,11 @@ socket.on('connection', function (client) {
 
     client.on('disconnect', function () {
         console.log('Phew !! Someone just disconnnect..');
-        if(players[client.id]) {
+        if (players[client.id]) {
             unusedColors.push(players[client.id].color);
         }
         delete players[client.id];
+        socket.to('global').emit('playerDisconnected', players);
     });
 
 });
@@ -200,10 +202,12 @@ setInterval(function () {
     playerRankings = [];
     for (var playerId in playerScoreMap) {
         if (playerScoreMap.hasOwnProperty(playerId) && playerId != 0) {
-            playerRankings.push({
-                score: playerScoreMap[playerId],
-                player: players[playerId]
-            })
+            if (playerId != 0) {
+                playerRankings.push({
+                    score: playerScoreMap[playerId],
+                    player: players[playerId]
+                })
+            }
         }
     }
     ;
@@ -211,8 +215,17 @@ setInterval(function () {
         return a.score - b.score
     });
 
+    //TODO: Very bad ! need to refactor later
+    var playersArray = [];
+    // Calculate the changes
+    for (var playerId in players) {
+        if (players.hasOwnProperty(playerId)) {
+            playersArray.push(players[playerId])
+        }
+    };
+
     // console.log("emitting", changesPayload)
-    socket.to('global').emit('gameStateUpdate', {playerRankings: playerRankings, changesPayload: changesPayload, players:players});
+    socket.to('global').emit('gameStateUpdate', {playerRankings: playerRankings, changesPayload: changesPayload, playersArray: playersArray});
 
 }, 200);
 

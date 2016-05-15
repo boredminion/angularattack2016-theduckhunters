@@ -8,6 +8,7 @@ table.grid {
 }
 
 .grid-container {
+    position: relative;
     background: orange;
     display: inline-block;
 }
@@ -18,5 +19,12 @@ table.grid td {
     width: 5px;
     background: transparent;
     color: transparent;
-    box-shadow: 0 0 3px 5px
+}
+
+.player-icons {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    z-index:10;
+    border-radius: 50%;
 }

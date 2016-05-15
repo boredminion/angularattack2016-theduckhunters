@@ -21,6 +21,7 @@ export class GameComponent {
     private players;
     private angle:number = 0;
     private start:boolean = false;
+    public playersArray = [];
 
     constructor(private socketService:SocketService) {
         this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
@@ -29,6 +30,7 @@ export class GameComponent {
                 var gridCoordinates = changedPayload[i].gridCoordinates;
                 this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]] = changedPayload[i].playerId;
             }
+            this.playersArray = updatedInfo.playersArray;
         });
         this.socketService.getSocket().on(SocketEvents[SocketEvents.playerConnected], (playerList)=> {
             this.players = playerList;
