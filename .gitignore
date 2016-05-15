@@ -2,7 +2,7 @@ node_modules
 npm-debug.log
 app/**/*.js
 app/**/*.js.map
-
+server/node_modules
 .idea/
 typings/
 target/
