@@ -57,7 +57,6 @@ socket.on('connection', function (client) {
                 pushdata(user);
             }
 
-            console.log(unusedColors);
             if (!unusedColors.length) {
                 //TODO: Handle overload
                 client.emit('roomFull');
@@ -183,7 +182,6 @@ setInterval(function () {
             var position1 = player.position;
             var newX = position1.x;
             var newY = position1.y;
-            console.log(player.angle)
             switch (player.angle) {
                 case 0:
                     newX = player.position.x - appConfig.distance;
@@ -207,8 +205,7 @@ setInterval(function () {
             var position2 = {
                 x: newX,
                 y: newY
-            }
-            console.log(position1, position2)
+            };
 
             var startX = (position1.x < position2.x) ? position1.x : position2.x;
             var startY = (position1.y < position2.y) ? position1.y : position2.y;
@@ -249,13 +246,12 @@ setInterval(function () {
 
     playerRankings = [];
     for (var playerId in playerScoreMap) {
-        if (playerScoreMap.hasOwnProperty(playerId) && playerId != 0) {
-            if (players[playerId]) {
-                playerRankings.push({
-                    score: playerScoreMap[playerId],
-                    player: players[playerId]
-                })
-            }
+        //TODO: Without playerID
+        if (playerScoreMap.hasOwnProperty(playerId) && playerId != 0 && players[playerId]) {
+            playerRankings.push({
+                score: playerScoreMap[playerId],
+                player: players[playerId]
+            })
         }
     }
     ;
@@ -273,7 +269,6 @@ setInterval(function () {
     }
     ;
 
-    // console.log("emitting", changesPayload)
     socket.to('global').emit('gameStateUpdate', {
         playerRankings: playerRankings,
         changesPayload: changesPayload,
