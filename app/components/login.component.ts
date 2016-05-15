@@ -1,9 +1,12 @@
-import {Component,Input} from '@angular/core';
+import {Component,Input, Injectable} from '@angular/core';
 import {Router} from '@angular/router-deprecated';
 
 //socket
 import {SocketService} from '../services/socket.service';
 import {SocketEvents} from '../services/socket_events.enum';
+declare var gapi:any;
+
+@Injectable()
 
 @Component({
     selector: "login",
@@ -12,7 +15,17 @@ import {SocketEvents} from '../services/socket_events.enum';
 
 export class LoginComponent {
 
-
+    ngAfterViewInit() {
+        gapi.signin2.render(
+            "google",
+            {
+                "onSuccess": (user) =>
+                    this.login(user),
+                "scope": "profile email",
+                "theme": "dark"
+            }
+        );
+    }
     public username:string;
     public userPassword:string = null;
     playerFull:string;
@@ -23,13 +36,22 @@ export class LoginComponent {
         });
     }
 
+    public signOut(){
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    }
+
+
     /**
      * Logs the user in
      */
-    public login() {
+    public login(user) {
+        console.log(user);
         this.socketService.getSocket().emit(SocketEvents[SocketEvents.login], {
-            "usercode": (this.userPassword === null) ? "DH-KHj-Qv0Cya7agYwbazS" : this.userPassword,
-            "name": this.username
+
+            "user": user
         }, (playerInfo) => {
             this.router.navigate(['Game']);
             console.log(playerInfo, " login success");
