@@ -3,9 +3,34 @@
     <base href="/">
     <title>Duck Hunters</title>
     <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="1078594911289-600lqlholr4gp5cmbn50a9lvsr6gk6jv.apps.googleusercontent.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <duck-hunter></duck-hunter>
+<!--<div class="login-wrapper" style="background-color: white;">-->
+    <!--<p>You need to log in.</p>-->
+    <!--<div id="google"></div>-->
+<!--</div>-->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!--<a href="#" onclick="signOut();">Sign out</a>-->
+<!--<script>-->
+    <!--function signOut() {-->
+        <!--var auth2 = gapi.auth2.getAuthInstance();-->
+        <!--auth2.signOut().then(function () {-->
+            <!--console.log('User signed out.');-->
+        <!--});-->
+    <!--}-->
+<!--</script>-->
+<!--<script>-->
+    <!--function onSignIn(googleUser) {-->
+    <!--var profile = googleUser.getBasicProfile();-->
+    <!--console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.-->
+    <!--console.log('Name: ' + profile.getName());-->
+    <!--console.log('Image URL: ' + profile.getImageUrl());-->
+    <!--console.log('Email: ' + profile.getEmail());-->
+    <!--}-->
+<!--</script>-->
 </body>
 </html>

@@ -6,7 +6,7 @@ var io = require('socket.io-client');
 @Injectable()
 export class SocketService {
 
-    private socketUrl:string = "https://shrouded-temple-26773.herokuapp.com/";
+    private socketUrl:string = "http://127.0.0.1:3000";
     private socket:Socket;
 
     constructor() {
