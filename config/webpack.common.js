@@ -11,6 +11,7 @@ const helpers = require('./helpers');
 // problem with copy-webpack-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /*
  * Webpack Constants
@@ -135,6 +136,7 @@ module.exports = {
       },
 
 
+
       /* Raw loader support for *.html
        * Returns file content as string
        *
@@ -199,8 +201,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'index.html',
       chunksSortMode: 'dependency'
-    })
+    }),
 
+    new CopyWebpackPlugin([
+        { from: 'index.html', to: '200.html' }])
   ],
 
   /*

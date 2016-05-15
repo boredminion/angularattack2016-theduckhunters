@@ -32,6 +32,10 @@ import {TitleComponent} from './title.component';
         path: '/game',
         name: 'Game',
         component: GameComponent
+    },
+    {
+        path: '/**',
+        redirectTo: ['Login']
     }
 ])
 export class AppComponent {
