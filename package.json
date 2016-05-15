@@ -76,5 +76,9 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-merge": "^0.12.0",
     "html-webpack-plugin": "^2.17.0"
+  },
+  "engines":{
+    "node": "^4.2.1",
+    "npm": "^3"
   }
 }
