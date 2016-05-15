@@ -39,7 +39,7 @@ var playerRankings = [];
 socket.on('connection', function (client) {
 
     console.log("Yay ! new client has connected");
-    
+
     client.emit('connectionSuccess', appConfig);
 
     client.on('login', function (userInfo, callback) {
@@ -266,10 +266,8 @@ setInterval(function () {
     var playersArray = [];
     // Calculate the changes
     for (var playerId in players) {
-        if (players.hasOwnProperty(playerId)) {
-            if (players[playerId].isInGame) {
-                playersArray.push(players[playerId])
-            }
+        if (players.hasOwnProperty(playerId) && players[playerId].isInGame) {
+            playersArray.push(players[playerId]);
         }
     }
 
