@@ -1,3 +1,4 @@
+<div id="google" style="display: none;"></div>
 <div *ngIf="!isGameStarted()">
     <div class="landing-page-container color-picker">
         <div class="landing-page">
@@ -29,8 +30,8 @@
         <div class="game-holder card pull-left">
             <div class="top-bar">
                 <div class="profile-box">
-                    <img src="{{userInfo.Ph}}">
-                    <span>{{userInfo.wc}}</span>
+                    <img src="{{userInfo.userInfo.Ph}}">
+                    <span>{{userInfo.userInfo.wc}}</span>
                 </div>
                 <div class="update-box">{{updateMessage}}</div>
                 <div class="my-score">
