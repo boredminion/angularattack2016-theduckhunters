@@ -19,14 +19,17 @@ var usedColors = [];
 var playerPopulation = 0;
 
 var appConfig = {
-    gridSize: 100,
+    gridSize: {
+        x: 100,
+        y: 150
+    },
     distance: 2,
     maxPlayers: 5
 };
 
-for (var i = 0; i < appConfig.gridSize; i++) {
+for (var i = 0; i < appConfig.gridSize.x; i++) {
     payloadGrid[i] = [];
-    for (var j = 0; j < appConfig.gridSize; j++) {
+    for (var j = 0; j < appConfig.gridSize.y; j++) {
         payloadGrid[i][j] = 0;
     }
 }
@@ -198,10 +201,10 @@ setInterval(function () {
                 default:
                     break;
             }
-            newX = newX <= (appConfig.gridSize - 1) ? newX : (appConfig.gridSize - 1)
+            newX = newX <= (appConfig.gridSize.x - 1) ? newX : (appConfig.gridSize.x - 1)
             newX = newX >= 0 ? newX : 0
             newY = newY >= 0 ? newY : 0;
-            newY = newY <= (appConfig.gridSize - 1) ? newY : (appConfig.gridSize - 1)
+            newY = newY <= (appConfig.gridSize.y - 1) ? newY : (appConfig.gridSize.y - 1)
             var position2 = {
                 x: newX,
                 y: newY
@@ -232,8 +235,8 @@ setInterval(function () {
 
     //Calculate rankings
     var playerScoreMap = {}
-    for (var i = 0; i < appConfig.gridSize; i++) {
-        for (var j = 0; j < appConfig.gridSize; j++) {
+    for (var i = 0; i < appConfig.gridSize.x; i++) {
+        for (var j = 0; j < appConfig.gridSize.y; j++) {
             // payloadGrid[i][j] = '';
             var gridUser = payloadGrid[i][j];
             if (playerScoreMap[gridUser]) {
