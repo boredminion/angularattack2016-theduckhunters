@@ -21,7 +21,7 @@ var playerPopulation = 0;
 var appConfig = {
     gridSize: 100,
     distance: 2,
-    maxPlayers: 1
+    maxPlayers: 5
 };
 
 for (var i = 0; i < appConfig.gridSize; i++) {
@@ -80,7 +80,6 @@ socket.on('connection', function (client) {
             };
             callback ? callback(data) : '';
             client.emit('loginSuccess', data);
-            socket.to('global').emit('playerConnected', players);
         }
 
         myFirebaseRef.once("value", function (allMessagesSnapshot, cb) {
@@ -99,20 +98,20 @@ socket.on('connection', function (client) {
             userExistsCallback(ref, exists);
         });
     });
-    
-    var validateColorUniqueness = function(color) {
-        if(usedColors.indexOf(color) === -1){
+
+    var validateColorUniqueness = function (color) {
+        if (usedColors.indexOf(color) === -1) {
             return true;
         }
         return false;
     };
 
-    client.on('getColors', function(callback) {
-       console.log("getColors");
+    client.on('getColors', function (callback) {
+        console.log("getColors");
         var randomColorsArray = [];
-        while(randomColorsArray.length < 5) {
+        while (randomColorsArray.length < 5) {
             var color = randomColor.randomColor();
-            if(validateColorUniqueness(color)){
+            if (validateColorUniqueness(color)) {
                 randomColorsArray.push(color);
             }
         }
@@ -137,6 +136,7 @@ socket.on('connection', function (client) {
                 players: players
             };
             playerPopulation++;
+            socket.to('global').emit('playerConnected', players);
             callback ? callback(data) : '';
             client.emit('joinGameSuccess', data);
             client.join('global');
@@ -154,7 +154,7 @@ socket.on('connection', function (client) {
     client.on('disconnect', function () {
         var player = players[client.id];
         if (player) {
-            if(player.isInGame){
+            if (player.isInGame) {
                 console.log(playerPopulation, appConfig.maxPlayers, "disconnected")
                 playerPopulation--;
             }
@@ -164,7 +164,7 @@ socket.on('connection', function (client) {
         socket.to('global').emit('playerDisconnected', players);
     });
 
-    client.on('reconnect', function( ) {
+    client.on('reconnect', function () {
         console.log("reconnected")
     })
 
@@ -176,7 +176,7 @@ setInterval(function () {
 
     // Calculate the changes
     for (var playerId in players) {
-        if (players.hasOwnProperty(playerId) && players[playerId].isInGame == true) {
+        if (players.hasOwnProperty(playerId) && players[playerId].isInGame) {
 
             var player = players[playerId];
             var position1 = player.position;
@@ -250,7 +250,7 @@ setInterval(function () {
         if (playerScoreMap.hasOwnProperty(playerId) && playerId != 0 && players[playerId]) {
             var player = players[playerId];
             var score = playerScoreMap[playerId];
-            if(score==0 && !player.isInGame){
+            if (score == 0 && !player.isInGame) {
                 usedColors.splice(usedColors.indexOf(player.color), 1);
                 delete players[playerId];
             } else {
@@ -271,7 +271,9 @@ setInterval(function () {
     // Calculate the changes
     for (var playerId in players) {
         if (players.hasOwnProperty(playerId)) {
-            playersArray.push(players[playerId])
+            if (players[playerId].isInGame) {
+                playersArray.push(players[playerId])
+            }
         }
     }
 
