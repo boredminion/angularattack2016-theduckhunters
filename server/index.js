@@ -37,9 +37,9 @@ for (var i = 0; i < appConfig.gridSize.x; i++) {
 var playerRankings = [];
 
 socket.on('connection', function (client) {
-    console.log(client.id)
 
     console.log("Yay ! new client has connected");
+    
     client.emit('connectionSuccess', appConfig);
 
     client.on('login', function (userInfo, callback) {
@@ -125,9 +125,7 @@ socket.on('connection', function (client) {
         console.log("joinGame");
         var player = players[client.id];
         //TODO: Handle rare case when color given from getColors is already taken by someone
-        console.log(playerPopulation, appConfig.maxPlayers)
         if (!player || !data.color || !validateColorUniqueness || playerPopulation >= appConfig.maxPlayers) {
-            console.log(123123)
             return false;
         } else {
             player.color = data.color;
@@ -158,7 +156,6 @@ socket.on('connection', function (client) {
         var player = players[client.id];
         if (player) {
             if (player.isInGame) {
-                console.log(playerPopulation, appConfig.maxPlayers, "disconnected")
                 playerPopulation--;
             }
             player.isInGame = false;
@@ -166,10 +163,6 @@ socket.on('connection', function (client) {
         console.log('Phew !! Someone just disconnnect..');
         socket.to('global').emit('playerDisconnected', players);
     });
-
-    client.on('reconnect', function () {
-        console.log("reconnected")
-    })
 
 });
 
