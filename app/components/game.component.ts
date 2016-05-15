@@ -16,10 +16,10 @@ import {SocketEvents} from '../services/socket_events.enum';
 
 export class GameComponent {
     playerRatings;
-    private leftArrow: number = 37;
-    private rightArrow: number = 39;
-    private upArrow: number = 38;
-    private downArrow: number = 40;
+    private leftArrow:number = 37;
+    private rightArrow:number = 39;
+    private upArrow:number = 38;
+    private downArrow:number = 40;
 
     private userInfo;
     private payloadGrid;
@@ -27,13 +27,14 @@ export class GameComponent {
     private angle:number = 0;
     private start:boolean = false;
     public playersArray = [];
+    public colors:string[];
+    public color:string;
 
     constructor(private socketService:SocketService) {
 
         this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
             var changedPayload = updatedInfo.changesPayload;
             this.playerRatings = updatedInfo.playerRankings;
-            console.log(this.playerRatings);
             for (var i = 0; i < changedPayload.length; i++) {
                 var gridCoordinates = changedPayload[i].gridCoordinates;
                 this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]] = changedPayload[i].playerId;
@@ -43,6 +44,7 @@ export class GameComponent {
         this.socketService.getSocket().on(SocketEvents[SocketEvents.playerConnected], (playerList)=> {
             this.players = playerList;
         });
+        this.getColors();
 
     }
 
@@ -50,15 +52,23 @@ export class GameComponent {
      * Allows user to join the game
      */
     public joinGame() {
-        this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {}, (response)=> {
-            this.start = true;
-            this.payloadGrid = response.payloadGrid;
-            this.userInfo = response.userInfo;
-            this.players = response.players;
-            console.log("user successfully joined");
-        });
+        console.log(this.color);
+        if(this.color){
+            this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {
+                color:this.color
+            }, (response)=> {
+                this.start = true;
+                this.payloadGrid = response.payloadGrid;
+                this.userInfo = response.userInfo;
+                this.players = response.players;
+                console.log("user successfully joined");
+            });
+        }else{
+            alert("please select a color");
+        }
+
     }
-    
+
     public refreshPayload(keyCode) {
         if (this.start) {
             switch (keyCode) {
@@ -82,6 +92,12 @@ export class GameComponent {
                     break;
             }
         }
+    }
+
+    public getColors() {
+        this.socketService.getSocket().emit(SocketEvents[SocketEvents.getColors], (colorList)=> {
+            this.colors = colorList;
+        })
     }
 
     private updateSocket() {
