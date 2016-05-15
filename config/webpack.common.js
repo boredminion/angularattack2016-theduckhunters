@@ -9,7 +9,6 @@ const helpers = require('./helpers');
  * Webpack Plugins
  */
 // problem with copy-webpack-plugin
-var CopyWebpackPlugin = (CopyWebpackPlugin = require('copy-webpack-plugin'), CopyWebpackPlugin.default || CopyWebpackPlugin);
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
@@ -176,19 +175,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: ['polyfills', 'vendor'].reverse()
     }),
-
-    /*
-     * Plugin: CopyWebpackPlugin
-     * Description: Copy files and directories in webpack.
-     *
-     * Copies project static assets.
-     *
-     * See: https://www.npmjs.com/package/copy-webpack-plugin
-     */
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
+    
 
     /*
      * Plugin: HtmlWebpackPlugin

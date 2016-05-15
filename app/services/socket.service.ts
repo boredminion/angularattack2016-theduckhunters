@@ -1,7 +1,7 @@
 /// <reference path="../lib/socket.io-client.d.ts" />
 import { Injectable } from '@angular/core';
 import {SocketEvents} from './socket_events.enum';
-
+var io = require('socket.io-client');
 
 @Injectable()
 export class SocketService {
