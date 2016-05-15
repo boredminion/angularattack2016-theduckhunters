@@ -6,7 +6,7 @@ import {SocketEvents} from './socket_events.enum';
 @Injectable()
 export class SocketService {
 
-    private socketUrl:string = 'http://10.10.11.68:3000';
+    private socketUrl:string = "https://shrouded-temple-26773.herokuapp.com/";
     private socket:Socket;
 
     constructor() {
