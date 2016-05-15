@@ -14,7 +14,7 @@ var payloadGrid = [];
 var players = {};
 var myFirebaseRef = new Firebase("https://duckhunters.firebaseio.com/");
 var unusedColors = [
-    "red", "black", "yellow", "blue", "green"
+    "red", "black", "green", "yellow", "blue"
 ];
 var appConfig = {
     gridSize: 100,
@@ -37,11 +37,12 @@ socket.on('connection', function (client) {
 
     client.on('login', function (userInfo, callback) {
         var user = userInfo;
+
         function pushdata(user) {
             var randomReference = myFirebaseRef.push();
-            user.id=client.id;
-            user.usercode='DH' + randomReference.key();
-            user.score=1212;
+            user.id = client.id;
+            user.usercode = 'DH' + randomReference.key();
+            user.score = 1212;
             randomReference.set(user);
             return user.usercode;
         }
@@ -56,16 +57,25 @@ socket.on('connection', function (client) {
                 pushdata(user);
             }
 
+            if (!unusedColors.length) {
+                //TODO: Handle overload
+                client.emit('roomFull');
+                return false;
+            }
+
+            var playerColor = unusedColors.splice(0, 1)[0];
+
             players[client.id] = {
                 id: client.id,
                 userInfo: user,
-                angle: 20,
+                angle: 0,
                 position: {
                     x: 0,
                     y: 0
                 },
-                color: unusedColors.splice(0, 1)[0] ? unusedColors.splice(0, 1)[0] : "white"
+                color: playerColor
             };
+
             var data = {
                 userInfo: players[client.id]
             };
@@ -117,7 +127,11 @@ socket.on('connection', function (client) {
 
     client.on('disconnect', function () {
         console.log('Phew !! Someone just disconnnect..');
+        if (players[client.id]) {
+            unusedColors.push(players[client.id].color);
+        }
         delete players[client.id];
+        socket.to('global').emit('playerDisconnected', players);
     });
 
 });
@@ -131,10 +145,59 @@ setInterval(function () {
         if (players.hasOwnProperty(playerId)) {
 
             //Update player position and add changed grid to changesPayload
+            // var player = players[playerId];
+            // var position1 = player.position;
+            // var newX = parseInt(position1.x + (appConfig.distance * Math.cos(player.angle)));
+            // var newY = parseInt(position1.y + (appConfig.distance * Math.sin(player.angle)));
+            // newX = newX <= (appConfig.gridSize - 1) ? newX : (appConfig.gridSize - 1)
+            // newX = newX >= 0 ? newX : 0
+            // newY = newY >= 0 ? newY : 0;
+            // newY = newY <= (appConfig.gridSize - 1) ? newY : (appConfig.gridSize - 1)
+            // var position2 = {
+            //     x: newX,
+            //     y: newY
+            // };
+            // var changedGrid = [];
+            // var startX = (position1.x < position2.x) ? position1.x : position2.x;
+            // var startY = (position1.y < position2.y) ? position1.y : position2.y;
+            // var endX = (position1.x > position2.x) ? position1.x : position2.x;
+            // var endY = (position1.y > position2.y) ? position1.y : position2.y;
+            // while (!(startX === endX && startY === endY)) {
+            //     if (startX < endX) {
+            //         startX++;
+            //     }
+            //     if (startY < endY) {
+            //         startY++;
+            //     }
+            //     payloadGrid[startX][startY] = playerId;
+            //     var gridChange = {
+            //         playerId: playerId,
+            //         gridCoordinates: [startX, startY]
+            //     };
+            //     changesPayload.push(gridChange);
+            // }
+            // player.position = position2;
+
             var player = players[playerId];
             var position1 = player.position;
-            var newX = Math.round(position1.x + (appConfig.distance * Math.cos(player.angle)));
-            var newY = Math.round(position1.y + (appConfig.distance * Math.sin(player.angle)));
+            var newX = position1.x;
+            var newY = position1.y;
+            switch (player.angle) {
+                case 0:
+                    newX = player.position.x - appConfig.distance;
+                    break;
+                case 1:
+                    newY = player.position.y + appConfig.distance;
+                    break;
+                case 2:
+                    newX = player.position.x + appConfig.distance;
+                    break;
+                case 3:
+                    newY = player.position.y - appConfig.distance;
+                    break;
+                default:
+                    break;
+            }
             newX = newX <= (appConfig.gridSize - 1) ? newX : (appConfig.gridSize - 1)
             newX = newX >= 0 ? newX : 0
             newY = newY >= 0 ? newY : 0;
@@ -143,7 +206,7 @@ setInterval(function () {
                 x: newX,
                 y: newY
             };
-            var changedGrid = [];
+
             var startX = (position1.x < position2.x) ? position1.x : position2.x;
             var startY = (position1.y < position2.y) ? position1.y : position2.y;
             var endX = (position1.x > position2.x) ? position1.x : position2.x;
@@ -183,7 +246,8 @@ setInterval(function () {
 
     playerRankings = [];
     for (var playerId in playerScoreMap) {
-        if (playerScoreMap.hasOwnProperty(playerId) && playerId != 0) {
+        //TODO: Without playerID
+        if (playerScoreMap.hasOwnProperty(playerId) && playerId != 0 && players[playerId]) {
             playerRankings.push({
                 score: playerScoreMap[playerId],
                 player: players[playerId]
@@ -195,10 +259,23 @@ setInterval(function () {
         return a.score - b.score
     });
 
-    // console.log("emitting", changesPayload)
-    socket.to('global').emit('gameStateUpdate', {playerRankings: playerRankings, changesPayload: changesPayload});
+    //TODO: Very bad ! need to refactor later
+    var playersArray = [];
+    // Calculate the changes
+    for (var playerId in players) {
+        if (players.hasOwnProperty(playerId)) {
+            playersArray.push(players[playerId])
+        }
+    }
+    ;
 
-}, 60);
+    socket.to('global').emit('gameStateUpdate', {
+        playerRankings: playerRankings,
+        changesPayload: changesPayload,
+        playersArray: playersArray
+    });
+
+}, 200);
 
 setInterval(function () {
     console.log('updating database');
