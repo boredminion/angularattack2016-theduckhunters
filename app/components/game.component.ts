@@ -31,17 +31,17 @@ export class GameComponent {
     public colors:string[];
     public color:string = null;
     public playerScore;
+    public updateMessage:string;
 
     constructor(private socketService:SocketService, private router:Router) {
-        this.socketService.getSocket().on(SocketEvents[SocketEvents.unauthorized], ()=> {
-            this.router.navigate(['Login']);
+        this.socketService.getSocket().on(SocketEvents[SocketEvents.messageBroadcast], (message)=> {
+            this.updateMessage = message;
         });
 
         this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
             var changedPayload = updatedInfo.changesPayload;
             this.playerRatings = updatedInfo.playerRankings;
-            this.playerScore=updatedInfo.playerScoreMap[this.userInfo["googleId"]];
-            console.log(this.playerScore)
+            this.playerScore = updatedInfo.playerScoreMap[this.userInfo["id"]];
             for (var i = 0; i < changedPayload.length; i++) {
                 var gridCoordinates = changedPayload[i].gridCoordinates;
                 this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]] = changedPayload[i].playerId;
@@ -67,7 +67,6 @@ export class GameComponent {
                 this.payloadGrid = response.payloadGrid;
                 this.userInfo = response.userInfo;
                 this.players = response.players;
-                console.log("user successfully joined");
             });
         } else {
             alert("please select a color");
@@ -114,7 +113,10 @@ export class GameComponent {
 
     public getColors() {
         this.socketService.getSocket().emit(SocketEvents[SocketEvents.getColors], (colorList)=> {
-            this.colors = colorList;
+            if (colorList)
+                this.colors = colorList;
+            else
+                this.router.navigate(["Login"]);
         })
     }
 
