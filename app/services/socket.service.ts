@@ -6,7 +6,7 @@ var io = require('socket.io-client');
 @Injectable()
 export class SocketService {
 
-    private socketUrl:string = "http://127.0.0.1:3000";
+    private socketUrl:string = "http://10.10.11.68:3000";
     private socket:Socket;
 
     constructor() {

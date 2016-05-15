@@ -40,7 +40,7 @@ for (var i = 0; i < appConfig.gridSize.x; i++) {
 //Na: 'Acharya',
 //hg: 'suraz.acharya09@gmail.com' }
 
-
+var messageBroadcastKey = true;
 var playerRankings = [];
 
 socket.on('connection', function (client) {
@@ -51,8 +51,21 @@ socket.on('connection', function (client) {
 
     client.on('login', function (userInfo, callback) {
         console.log("login");
+
+        if (client.loggedIn && players[client.googleId]) {
+            var data = {
+                userInfo: players[client.googleId]
+            };
+            callback ? callback(data) : '';
+            return false;
+        }
+
         userInfo = userInfo.user.wc;
         client.googleId = userInfo.Ka;
+
+        if (players[client.googleId]) {
+
+        }
 
         var user = userInfo;
 
@@ -66,14 +79,14 @@ socket.on('connection', function (client) {
         }
 
         function userExistsCallback(id, exists) {
-            if (exists) {
-                id.on("value", function (snapshot) {
-                    user = snapshot.val();
-                })
-            }
-            else {
-                pushdata(user);
-            }
+            // if (exists) {
+            //     id.on("value", function (snapshot) {
+            //         // user = snapshot.val();
+            //     })
+            // }
+            // else {
+            //     pushdata(user);
+            // }
 
             //TODO: Validate room population
 
@@ -91,6 +104,7 @@ socket.on('connection', function (client) {
             var data = {
                 userInfo: players[client.googleId]
             };
+            client.loggedIn = true;
             callback ? callback(data) : '';
             client.emit('loginSuccess', data);
         }
@@ -121,14 +135,19 @@ socket.on('connection', function (client) {
 
     client.on('getColors', function (callback) {
         console.log("getColors");
-        var randomColorsArray = [];
-        while (randomColorsArray.length < 5) {
-            var color = randomColor.randomColor();
-            if (validateColorUniqueness(color)) {
-                randomColorsArray.push(color);
+        if (!players[client.googleId]) {
+            console.log("rejected")
+            callback(null);
+        } else {
+            var randomColorsArray = [];
+            while (randomColorsArray.length < 5) {
+                var color = randomColor.randomColor();
+                if (validateColorUniqueness(color)) {
+                    randomColorsArray.push(color);
+                }
             }
+            callback(randomColorsArray);
         }
-        callback(randomColorsArray);
     });
 
     client.on('joinGame', function (data, callback) {
@@ -148,6 +167,8 @@ socket.on('connection', function (client) {
             };
             playerPopulation++;
             socket.to('global').emit('playerConnected', players);
+            messageBroadcastKey = false;
+            socket.to('global').emit('messageBroadcast', player.userInfo.wc + " has connected to the game.");
             callback ? callback(data) : '';
             client.emit('joinGameSuccess', data);
             client.join('global');
@@ -169,6 +190,10 @@ socket.on('connection', function (client) {
                 playerPopulation--;
             }
             player.isInGame = false;
+            console.log(player)
+            messageBroadcastKey = false;
+            socket.to('global').emit('messageBroadcast', player.userInfo.wc + " has disconnected from the game.");
+
         }
         console.log('Phew !! Someone just disconnnect..');
         socket.to('global').emit('playerDisconnected', players);
@@ -270,7 +295,7 @@ setInterval(function () {
 
     playerRankings = playerRankings.sort(function (a, b) {
         return a.score - b.score
-    });
+    }).reverse();
 
     //TODO: Very bad ! need to refactor later
     var playersArray = [];
@@ -284,7 +309,8 @@ setInterval(function () {
     socket.to('global').emit('gameStateUpdate', {
         playerRankings: playerRankings,
         changesPayload: changesPayload,
-        playersArray: playersArray
+        playersArray: playersArray,
+        playerScoreMap: playerScoreMap
     });
 
 }, 200);
@@ -294,3 +320,12 @@ setInterval(function () {
     //ref.remove();
     console.log('updating database');
 }, 10000);
+
+
+setInterval(function () {
+    if(messageBroadcastKey) {
+        socket.to('global').emit('messageBroadcast', "Quack quack !!");
+    }else {
+        messageBroadcastKey = true;
+    }
+}, 5000);

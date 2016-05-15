@@ -3,7 +3,6 @@ import {Component} from '@angular/core';
 //router
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router-deprecated';
 
-
 //service
 import {SocketService} from '../services/socket.service';
 
@@ -15,9 +14,9 @@ import {TitleComponent} from './title.component';
 @Component({
     selector: "duck-hunter",
     template: `
-        <duck-title></duck-title>
         <router-outlet></router-outlet>
     `,
+    styleUrls: [require('../assets/css/fonts.css'), require('../assets/css/reset.css'),require('../assets/css/style.css')],
     directives: [ROUTER_DIRECTIVES, TitleComponent],
     providers: [SocketService, ROUTER_PROVIDERS]
 })

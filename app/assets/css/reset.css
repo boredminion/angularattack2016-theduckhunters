@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 14px/16px 'visitor1', 'visitor2', '8bit', 'arial';
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a, a:hover {
+    text-decoration: none;
+}
+
+div::after, ul::after {
+    clear: both;
+    content: "";
+    display: block;
+}

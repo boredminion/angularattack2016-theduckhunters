@@ -1,0 +1,199 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+ul {
+    text-decoration: none;
+}
+
+.game-screen p,.game-screen span {
+    font-size: 12px;
+    color: #8d8c8c;
+}
+
+a:after, span:after, p:after {
+    display: inline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    padding: 5px !important;
+    background: #f6f6f6;
+    height: 98%;
+}
+
+.game-holder {
+    width: 80%;
+    min-height: 200px;
+    background: #fff;
+}
+
+.top-bar, .title-box {
+    font-weight: 400;
+    background: #e4d9c1;
+    font-size: 16px;
+    border-bottom: 1px solid #cccccc;
+    height: 45px;
+}
+
+.title-box h2 {
+    font-weight: 400;
+    background: #e4d9c1;
+    font-size: 16px;
+    height: 45px;
+    padding-top: 12px;
+}
+
+.top-bar {
+    padding: 0;
+}
+
+.top-bar > div {
+    float: left;
+    padding: 10px;
+    border-right: 1px dashed #000;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+}
+
+.top-bar > div:last-child {
+    border: none;
+}
+
+.top-bar span {
+    font-size: 18px;
+    color: #000;
+}
+
+.profile-box {
+    width: 20%
+}
+
+.update-box {
+    width: 50%;
+}
+
+.my-score {
+    width: 22%;
+}
+
+.profile-box img {
+    float: left;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+}
+
+.game-screen {
+    padding: 5px 0;
+    text-align: center;
+}
+
+.scoreboard-container {
+    width: 18%;
+    background: #F5F5F5;
+}
+
+.title-box {
+    text-align: center;
+}
+
+.scoreboard-container ul {
+    background: rgb(230, 230, 230);
+}
+
+.card {
+    box-shadow: 1px 2px 15px #e5e5e5;
+    -webkit-box-shadow: 1px 2px 15px #e5e5e5;
+}
+
+.scoreboard-container ul li {
+    display: block;
+    background: #fff;
+    padding: 4px 10px;
+    line-height: 32px;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.scoreboard-container ul li:last-child {
+    margin-bottom: 0;
+}
+
+.scoreboard-container ul li img {
+    float: left;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    margin-top: 7px;
+}
+
+.scoreboard-container ul li p {
+    float: left;
+    display: block;
+    width: 75%;
+    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.people-info {
+    width: 80%;
+}
+
+.people-score {
+    width: 18%;
+    text-align: right;
+}
+
+.scoreboard-container ul li span {
+    display: inline-block;
+    color: #000;
+    font-weight: 600;
+}
+
+.scoreboard-container ul li span.color-holder {
+    float: left;
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 5px;
+    background: blue;
+    margin-top: 3px;
+    margin-right: 6px;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right
+}
+
+footer {
+    padding: 20px;
+    background: #e4d9c1;
+    text-align: center;
+}

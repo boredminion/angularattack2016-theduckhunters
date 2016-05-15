@@ -11,12 +11,11 @@ declare var gapi:any;
 @Component({
     selector: "login",
     template: require('../assets/templates/login.html'),
-    styles: [ require('../assets/css/style.css') ],
 })
 
 export class LoginComponent {
-
     ngAfterViewInit() {
+
         gapi.signin2.render(
             "google",
             {
@@ -25,12 +24,22 @@ export class LoginComponent {
                 'width': 200,
                 'height': 50,
                 'longtitle': false,
-                "onSuccess": (user) =>
-                    this.login(user),
+                "onSuccess": (user) => {
+                    if (!window.localStorage.getItem("isSignedIn")) {
+                        window.localStorage.setItem("isSignedIn", "true");
+                        this.login(user);
+                    } else {
+                        window.localStorage.removeItem("isSignedIn");
+                        this.signOut();
+                        window.location.reload();
+                    }
+
+                },
 
             }
         );
     }
+
     public username:string;
     public userPassword:string = null;
     playerFull:string;
@@ -41,7 +50,8 @@ export class LoginComponent {
         });
     }
 
-    public signOut(){
+
+    public signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
             console.log('User signed out.');
@@ -54,7 +64,7 @@ export class LoginComponent {
      * Logs the user in
      */
     public login(user) {
-        localStorage.setItem('user', JSON.stringify(user.wc));
+        console.log(user, gapi.auth2.getAuthInstance());
         this.socketService.getSocket().emit(SocketEvents[SocketEvents.login], {
             "user": user
         }, (playerInfo) => {
