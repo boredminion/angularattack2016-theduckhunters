@@ -21,12 +21,8 @@
     "build:dev": "webpack --config config/webpack.dev.js --progress --profile --colors --display-error-details --display-cached",
     "prebuild:prod": "npm run clean:dist",
     "build:prod": "webpack --config config/webpack.prod.js  --progress --profile --colors --display-error-details --display-cached --bail",
-    "server": "npm run server:dev",
     "server:dev": "webpack-dev-server --config config/webpack.dev.js --inline --progress --profile --colors --watch --display-error-details --display-cached --content-base src/",
-    "server:dev:hmr": "npm run server:dev -- --hot",
-    "server:prod": "http-server dist --cors",
     "start": "npm run server:dev",
-    "start:hmr": "npm run server:dev:hmr",
     "postinstall": "typings install"
   },
   "repository": {
@@ -78,9 +74,7 @@
     "parse5": "^1.5.1",
     "raw-loader": "0.5.1",
     "webpack-dev-server": "^1.14.1",
-    "webpack-md5-hash": "^0.0.5",
     "webpack-merge": "^0.12.0",
     "html-webpack-plugin": "^2.17.0"
-
   }
 }
