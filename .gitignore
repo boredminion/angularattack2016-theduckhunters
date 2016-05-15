@@ -6,3 +6,4 @@ app/**/*.js.map
 .idea/
 typings/
 target/
+dist/
