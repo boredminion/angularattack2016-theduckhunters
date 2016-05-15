@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 
 //component
 import {ScoreboardComponent} from "./scoreboard.component";
@@ -29,7 +30,11 @@ export class GameComponent {
     public colors:string[];
     public color:string = null;
 
-    constructor(private socketService:SocketService) {
+    constructor(private socketService:SocketService, private router:Router) {
+        var userPresent = JSON.parse(localStorage.getItem('user')) === null ? false : true;
+        if (!userPresent){
+            this.router.navigate(['Login']);
+        }
 
         this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
             var changedPayload = updatedInfo.changesPayload;
