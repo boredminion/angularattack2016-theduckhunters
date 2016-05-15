@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router-deprecated';
-
+import {Modal} from "ng2-modal";
 //component
 import {ScoreboardComponent} from "./scoreboard.component";
 //socket
@@ -10,7 +10,7 @@ import {SocketEvents} from '../services/socket_events.enum';
 @Component({
     selector: "duck-hunter",
     template: require('../assets/templates/game.html'),
-    directives: [ScoreboardComponent],
+    directives: [ScoreboardComponent, Modal],
     styleUrls: [require('../assets/css/gameScreen.css')],
     host: {'(window:keyup)': 'refreshPayload($event.keyCode)'}
 })

@@ -19,58 +19,86 @@
                     Colors</a>
                 <a href="javascript:void(0)" (click)="joinGame()" title="Cmon!!!  Lets Go" class="btn btn-black">
                     Cmon!!! Lets Go</a>
+
+                <a href="javascript:void(0)" (click)="myModal.open()" title="How to Play" style="margin: 10px auto;" class="btn btn-white">
+                    How To Play</a>
             </div>
         </div>
     </div>
+    <div class="row">
+        <modal #myModal title="Press ESC to exit" [hideCloseButton]="true"
+               [closeOnEscape]="true">
+            <modal-header>
+                <h2>Are you ready?</h2>
+            </modal-header>
+            <modal-content>
+                <ul>
+                    <li>1. Select a color to hunt</li>
+                    <li>2. If you are not yet satisfed shuffle the color ;)</li>
+                    <li>3. Move the ducks with the arrow as shown</li>
+                    <li>4. Start hunting the duck and leave your mark on the way ;)</li>
+                    <li>5. Beaware, other ducks are following u too ;)</li>
+                    <li>6. Repaint their paths to earn your points and decrease theirs ;)</li>
+                    <li>7. Check your score on the leader dashboard ;)</li>
+                    <li>8. User with large score becomes a winner but beaware others may swipe you ;)</li>
+                </ul>
+            </modal-content>
+            <modal-footer>
+                <div class="modal-game"></div>
+                </modal-footer>
 
-</div>
-<div *ngIf="isGameStarted()">
-    <div class="container">
-        <div class="game-holder card pull-left">
-            <div class="top-bar">
-                <div class="profile-box">
-                    <img src="{{userInfo.Ph}}">
-                    <span>{{userInfo.wc}}</span>
-                </div>
-                <div class="update-box">{{updateMessage}}</div>
-                <div class="my-score">
-                    My Score:
-                    <span>{{playerScore}}</span>
-                </div>
-            </div>
-            <div class="game-screen">
-                <div class="grid-container">
-                    <table class="grid" cellpadding="0" cellspacing="0">
-                        <tr *ngFor="let row of payloadGrid; let i=index">
-                            <td *ngFor="let column of row; let j=index"
-                                [ngStyle]="{'background-color': '#fff' && players[ payloadGrid[i][j] ] && players[ payloadGrid[i][j] ].color}">
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="player-icons" *ngFor="let playerId of playersArray"
-                         [ngStyle]="{'top': (5*playerId.position.x - 10)+'px', left: (5*playerId.position.y -10)+'px', background: playerId.color}">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="scoreboard-container card pull-right">
-            <div class="title-box">
-                <h2>Leaderboard</h2>
-            </div>
-            <ul>
-                <li class="card" *ngFor="let ratings of playerRatings">
-                    <div class="pull-left people-info">
-                        <img src="{{ratings.player.userInfo.Ph}}">
 
-                        <p>{{ratings.player.userInfo.wc}}</p>
-                    </div>
-                    <div class="pull-right people-score">
-                        <span>{{ratings.score}}</span>
-                    </div>
-                </li>
-            </ul>
+            </modal>
         </div>
+
     </div>
+    <div *ngIf="isGameStarted()">
+        <div class="container">
+            <div class="game-holder card pull-left">
+                <div class="top-bar">
+                    <div class="profile-box">
+                        <img src="{{userInfo.Ph}}">
+                        <span>{{userInfo.wc}}</span>
+                    </div>
+                    <div class="update-box">{{updateMessage}}</div>
+                    <div class="my-score">
+                        My Score:
+                        <span>{{playerScore}}</span>
+                    </div>
+                </div>
+                <div class="game-screen">
+                    <div class="grid-container">
+                        <table class="grid" cellpadding="0" cellspacing="0">
+                            <tr *ngFor="let row of payloadGrid; let i=index">
+                                <td *ngFor="let column of row; let j=index"
+                                    [ngStyle]="{'background-color': '#fff' && players[ payloadGrid[i][j] ] && players[ payloadGrid[i][j] ].color}">
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="player-icons" *ngFor="let playerId of playersArray"
+                             [ngStyle]="{'top': (5*playerId.position.x - 10)+'px', left: (5*playerId.position.y -10)+'px', background: playerId.color}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scoreboard-container card pull-right">
+                <div class="title-box">
+                    <h2>Leaderboard</h2>
+                </div>
+                <ul>
+                    <li class="card" *ngFor="let ratings of playerRatings">
+                        <div class="pull-left people-info">
+                            <img src="{{ratings.player.userInfo.Ph}}">
 
-</div>
+                            <p>{{ratings.player.userInfo.wc}}</p>
+                        </div>
+                        <div class="pull-right people-score">
+                            <span>{{ratings.score}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
 
