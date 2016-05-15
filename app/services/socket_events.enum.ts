@@ -12,5 +12,6 @@ export enum SocketEvents{
     clientStateUpdate,
     roomFull,
     getColors,
-    unauthorized
+    unauthorized,
+    messageBroadcast
 }
