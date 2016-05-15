@@ -8,7 +8,6 @@ import {SocketEvents} from '../services/socket_events.enum';
 @Component({
     selector: "login",
     template: require('../assets/templates/login.html'),
-    styles: [require('../assets/css/fonts.css'), require('../assets/css/reset.css'), require('../assets/css/style.css')],
 })
 
 export class LoginComponent {

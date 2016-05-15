@@ -120,9 +120,20 @@ module.exports = {
        * See: https://github.com/webpack/raw-loader
        */
       {
-        test: /\.css$/,
-        loader: 'raw-loader'
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        loader: 'file?name=assets/[name].[hash].[ext]'
       },
+      {
+        test: /\.css/,
+        exclude: helpers.root('src', 'app'),
+        loaders: ['style', 'css']
+      },
+      {
+        test: /\.css/,
+        include: helpers.root('src', 'app'),
+        loader: 'raw'
+      },
+
 
       /* Raw loader support for *.html
        * Returns file content as string

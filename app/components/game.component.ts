@@ -9,7 +9,6 @@ import {SocketEvents} from '../services/socket_events.enum';
 @Component({
     selector: "duck-hunter",
     template: require('../assets/templates/game.html'),
-    styles: [require('../assets/css/fonts.css'), require('../assets/css/reset.css'), require('../assets/css/style.css')],
     directives: [ScoreboardComponent],
     host: {'(window:keyup)': 'refreshPayload($event.keyCode)'}
 })
