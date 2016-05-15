@@ -37,5 +37,9 @@
     "lite-server": "^2.2.0",
     "typescript": "^1.8.10",
     "typings": "^0.8.1"
+  },
+  "engines":{
+    "node": ">= 4.2.1",
+    "npm": ">=3"
   }
 }
