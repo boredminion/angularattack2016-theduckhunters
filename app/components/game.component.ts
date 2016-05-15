@@ -61,7 +61,6 @@ export class GameComponent {
             this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {
                 color:this.color
             }, (response)=> {
-                console.log('sdsd');
                 this.start = true;
                 this.payloadGrid = response.payloadGrid;
                 this.userInfo = response.userInfo;
