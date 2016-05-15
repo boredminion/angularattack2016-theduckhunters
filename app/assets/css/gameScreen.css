@@ -1,43 +1,53 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
-*:after{
+
+*:after {
     clear: both;
     content: "";
     display: block;
 }
-ul{
+
+ul {
     text-decoration: none;
 }
-p, span{
+
+.game-screen p,.game-screen span {
     font-size: 12px;
     color: #8d8c8c;
 }
-a:after, span:after, p:after{
+
+a:after, span:after, p:after {
     display: inline;
 }
-h1,h2,h3,h4,h5,h6{
+
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Oswald', sans-serif;
 }
-html,body{
+
+html, body {
     height: 100%;
 }
-body{
+
+body {
     font-family: 'Open Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
 }
-.container{
-    padding: 10px !important;
+
+.container {
+    padding: 5px !important;
     background: #f6f6f6;
-    height: 100%;
+    height: 98%;
 }
-.game-holder{
+
+.game-holder {
     width: 80%;
     min-height: 200px;
     background: #fff;
 }
-.top-bar,.title-box{
+
+.top-bar, .title-box {
     font-weight: 400;
     background: #e4d9c1;
     font-size: 16px;
@@ -45,7 +55,7 @@ body{
     height: 45px;
 }
 
-.title-box h2{
+.title-box h2 {
     font-weight: 400;
     background: #e4d9c1;
     font-size: 16px;
@@ -53,57 +63,70 @@ body{
     padding-top: 12px;
 }
 
-.top-bar{
+.top-bar {
     padding: 0;
 }
-.top-bar > div{
+
+.top-bar > div {
     float: left;
     padding: 10px;
     border-right: 1px dashed #000;
     font-family: 'Oswald', sans-serif;
     font-size: 18px;
 }
-.top-bar > div:last-child{
+
+.top-bar > div:last-child {
     border: none;
 }
-.top-bar span{
+
+.top-bar span {
     font-size: 18px;
     color: #000;
 }
-.profile-box{
+
+.profile-box {
     width: 20%
 }
-.update-box{
+
+.update-box {
     width: 50%;
 }
-.my-score{
+
+.my-score {
     width: 22%;
 }
-.profile-box img{
+
+.profile-box img {
     float: left;
     border-radius: 50%;
     width: 26px;
     height: 26px;
     margin-right: 10px;
 }
-.game-screen{
-    padding: 100px;
+
+.game-screen {
+    padding: 5px 0;
     text-align: center;
 }
+
 .scoreboard-container {
     width: 18%;
     background: #F5F5F5;
 }
-.title-box{
+
+.title-box {
     text-align: center;
 }
+
 .scoreboard-container ul {
-    background: rgb(230,230,230);
+    background: rgb(230, 230, 230);
 }
+
 .card {
     box-shadow: 1px 2px 15px #e5e5e5;
     -webkit-box-shadow: 1px 2px 15px #e5e5e5;
 }
+
 .scoreboard-container ul li {
     display: block;
     background: #fff;
@@ -111,9 +134,11 @@ body{
     line-height: 32px;
     border-bottom: 1px solid #d4d4d4;
 }
-.scoreboard-container ul li:last-child{
+
+.scoreboard-container ul li:last-child {
     margin-bottom: 0;
 }
+
 .scoreboard-container ul li img {
     float: left;
     border-radius: 50%;
@@ -122,6 +147,7 @@ body{
     margin-right: 10px;
     margin-top: 7px;
 }
+
 .scoreboard-container ul li p {
     float: left;
     display: block;
@@ -131,18 +157,22 @@ body{
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.people-info{
+
+.people-info {
     width: 80%;
 }
-.people-score{
+
+.people-score {
     width: 18%;
     text-align: right;
 }
+
 .scoreboard-container ul li span {
     display: inline-block;
     color: #000;
     font-weight: 600;
 }
+
 .scoreboard-container ul li span.color-holder {
     float: left;
     display: block;
@@ -153,13 +183,16 @@ body{
     margin-top: 3px;
     margin-right: 6px;
 }
+
 .pull-left {
     float: left;
 }
-.pull-right{
+
+.pull-right {
     float: right
 }
-footer{
+
+footer {
     padding: 20px;
     background: #e4d9c1;
     text-align: center;

@@ -4,7 +4,6 @@
             <h1>
                 Select a color and Lets go hunt some DUCK !!!
             </h1>
-
             <ul class="color-picker-list">
                 <li [ngClass]="{'selected':isColorSelected(colorItem)}"
                     (click)="setColor(colorItem)"
@@ -30,13 +29,13 @@
         <div class="game-holder card pull-left">
             <div class="top-bar">
                 <div class="profile-box">
-                    <img src="https://lh3.googleusercontent.com/-cezQMe6xDzY/AAAAAAAAAAI/AAAAAAAAABg/5-g14brxDU4/photo.jpg">
-                    <span>Sudhir Shrestha</span>
+                    <img src="{{userInfo.Ph}}">
+                    <span>{{userInfo.wc}}</span>
                 </div>
-                <div class="update-box">Anuj Joshi Joined the Game!</div>
+                <div class="update-box">{{updateMessage}}</div>
                 <div class="my-score">
                     My Score:
-                    <span>123456</span>
+                    <span>{{playerScore}}</span>
                 </div>
             </div>
             <div class="game-screen">
@@ -59,34 +58,14 @@
                 <h2>Leaderboard</h2>
             </div>
             <ul>
-                <li class="card">
+                <li class="card" *ngFor="let ratings of playerRatings">
                     <div class="pull-left people-info">
-                        <img src="https://lh3.googleusercontent.com/-cezQMe6xDzY/AAAAAAAAAAI/AAAAAAAAABg/5-g14brxDU4/photo.jpg">
+                        <img src="{{ratings.player.userInfo.Ph}}">
 
-                        <p>Sudhir Shrestha</p>
+                        <p>{{ratings.player.userInfo.wc}}</p>
                     </div>
                     <div class="pull-right people-score">
-                        <span>123</span>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="pull-left people-info">
-                        <img src="https://lh3.googleusercontent.com/-cezQMe6xDzY/AAAAAAAAAAI/AAAAAAAAABg/5-g14brxDU4/photo.jpg">
-
-                        <p>Anuj Joshi</p>
-                    </div>
-                    <div class="pull-right people-score">
-                        <span>123</span>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="pull-left people-info">
-                        <img src="https://lh3.googleusercontent.com/-cezQMe6xDzY/AAAAAAAAAAI/AAAAAAAAABg/5-g14brxDU4/photo.jpg">
-
-                        <p>Niraj Acharya</p>
-                    </div>
-                    <div class="pull-right people-score">
-                        <span>123</span>
+                        <span>{{ratings.score}}</span>
                     </div>
                 </li>
             </ul>

@@ -11,6 +11,7 @@ import {SocketEvents} from '../services/socket_events.enum';
     selector: "duck-hunter",
     template: require('../assets/templates/game.html'),
     directives: [ScoreboardComponent],
+    styleUrls: [require('../assets/css/gameScreen.css')],
     host: {'(window:keyup)': 'refreshPayload($event.keyCode)'}
 })
 
@@ -21,7 +22,7 @@ export class GameComponent {
     private upArrow:number = 38;
     private downArrow:number = 40;
 
-    private userInfo;
+    public userInfo = {};
     private payloadGrid;
     private players;
     private angle:number = 0;
@@ -29,16 +30,18 @@ export class GameComponent {
     public playersArray = [];
     public colors:string[];
     public color:string = null;
+    public playerScore;
 
     constructor(private socketService:SocketService, private router:Router) {
-        var userPresent = JSON.parse(localStorage.getItem('user')) === null ? false : true;
-        if (!userPresent){
+        this.socketService.getSocket().on(SocketEvents[SocketEvents.unauthorized], ()=> {
             this.router.navigate(['Login']);
-        }
+        });
 
         this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
             var changedPayload = updatedInfo.changesPayload;
             this.playerRatings = updatedInfo.playerRankings;
+            this.playerScore=updatedInfo.playerScoreMap[this.userInfo["googleId"]];
+            console.log(this.playerScore)
             for (var i = 0; i < changedPayload.length; i++) {
                 var gridCoordinates = changedPayload[i].gridCoordinates;
                 this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]] = changedPayload[i].playerId;
