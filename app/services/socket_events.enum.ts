@@ -10,5 +10,6 @@ export enum SocketEvents{
     gameStateUpdate,
     playerConnected,
     clientStateUpdate,
-    roomFull
+    roomFull,
+    getColors
 }
