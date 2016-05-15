@@ -63,10 +63,14 @@ export class GameComponent {
             this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {
                 color: this.color
             }, (response)=> {
-                this.start = true;
-                this.payloadGrid = response.payloadGrid;
-                this.userInfo = response.userInfo;
-                this.players = response.players;
+                if(response) {
+                    this.start = true;
+                    this.payloadGrid = response.payloadGrid;
+                    this.userInfo = response.userInfo;
+                    this.players = response.players;
+                } else {
+                    alert("Apologies ! We are at maximum capacity currently. Please try again later.")
+                }
             });
         } else {
             alert("please select a color");

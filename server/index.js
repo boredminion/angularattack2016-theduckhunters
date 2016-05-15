@@ -155,6 +155,7 @@ socket.on('connection', function (client) {
         var player = players[client.googleId];
         //TODO: Handle rare case when color given from getColors is already taken by someone
         if (!player || !data.color || !validateColorUniqueness || playerPopulation >= appConfig.maxPlayers) {
+            callback(false);
             return false;
         } else {
             player.color = data.color;
