@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 
+//component
+import {ScoreboardComponent} from "./scoreboard.component";
 //socket
 import {SocketService} from '../services/socket.service';
 import {SocketEvents} from '../services/socket_events.enum';
@@ -11,10 +13,13 @@ import {AngleUtil} from '../util/AngleUtil';
 @Component({
     templateUrl: 'app/assets/templates/game.html',
     styleUrls: ['app/assets/css/style.css'],
+    directives: [ScoreboardComponent],
     host: {'(window:keydown)': 'refreshPayload($event.keyCode)'}
 })
 
 export class GameComponent {
+
+    playerRatings;
 
     private userInfo;
     private payloadGrid;
@@ -26,6 +31,8 @@ export class GameComponent {
     constructor(private socketService:SocketService) {
         this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
             var changedPayload = updatedInfo.changesPayload;
+            this.playerRatings = updatedInfo.playerRankings;
+            console.log(this.playerRatings);
             for (var i = 0; i < changedPayload.length; i++) {
                 var gridCoordinates = changedPayload[i].gridCoordinates;
                 this.payloadGrid[gridCoordinates[0]][gridCoordinates[1]] = changedPayload[i].playerId;
@@ -49,7 +56,7 @@ export class GameComponent {
             console.log("user successfully joined");
         });
     }
-    
+
     public refreshPayload(keyCode) {
         if (this.start) {
             if (keyCode === 39) {
@@ -69,5 +76,5 @@ export class GameComponent {
             console.log("user payload changed");
         });
     }
-   
+
 }
