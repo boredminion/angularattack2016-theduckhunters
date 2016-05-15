@@ -15,7 +15,7 @@ a, a:hover {
     text-decoration: none;
 }
 
-div::after {
+div::after, ul::after {
     clear: both;
     content: "";
     display: block;

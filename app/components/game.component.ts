@@ -27,7 +27,7 @@ export class GameComponent {
     private start:boolean = false;
     public playersArray = [];
     public colors:string[];
-    public color:string;
+    public color:string = null;
 
     constructor(private socketService:SocketService) {
 
@@ -51,7 +51,6 @@ export class GameComponent {
      * Allows user to join the game
      */
     public joinGame() {
-        console.log(this.color);
         if (this.color) {
             this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {
                 color: this.color
@@ -66,6 +65,18 @@ export class GameComponent {
             alert("please select a color");
         }
 
+    }
+
+    public setColor(colorItem) {
+        this.color = colorItem;
+    }
+
+    public isColorSelected(colorItem) {
+        return colorItem === this.color;
+    }
+
+    public isGameStarted() {
+        return typeof this.color !== undefined && this.color !== null && this.start;
     }
 
     public refreshPayload(keyCode) {

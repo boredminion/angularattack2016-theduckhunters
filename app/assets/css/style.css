@@ -5,13 +5,17 @@ body, html {
 }
 
 .main-container {
-    height: 93%;
+    height: 99%;
 }
 
 .landing-page-container {
-    background: #e4d9c1 url("../images/background.jpg") no-repeat center center/contain;
+    background: #e4d9c1 url("../images/background.jpg") no-repeat center center/ contain;
     height: 100%;
-    padding: 20px 10px;
+    padding: 1px 10px;
+}
+
+.landing-page-container.color-picker {
+    background-position: right center;
 }
 
 .landing-page {
@@ -31,18 +35,71 @@ body, html {
 }
 
 .btn {
-    text-indent: -9999px;
-    padding: 10px 100px;
+    min-width: 200px;
+    line-height: 40px;
+    text-align: center;
+    display: inline-block;
+    opacity:0.9;
+}
+.btn:hover{
+    opacity:1;
+}
+.btn-blue {
+    background: #1E1D56;
+    box-shadow: 2px 0 2px #020202;
+    color: #dcd8d8;
 }
 
-.google-btn {
-    background: url("../images/google_sign_in.png") no-repeat center center;
-    display: inline-block;
+.btn-black {
+    background: #020202;
+    box-shadow: 2px 0 2px #020202;
+    color: #dcd8d8;
+}
+
+.google-oauth-btn div{
+    margin:0 auto;
 }
 
 .btn-block {
     margin: 20px 20px 10px;
     text-align: center;
+}
+
+.color-picker-list {
+    display: block;
+    text-align: center;
+    margin: 5% 0 7% 22.5%;
+
+}
+
+.color-picker h1 {
+    font: 30px/35px 'visitor1', 'visitor2', '8bit', arial;
+}
+
+.color-picker-list li {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    margin-right: 5px;
+    float: left;
+    -webkit-box-shadow: 2px 0 2px #020202;
+    -moz-box-shadow: 2px 0 2px #020202;
+    box-shadow: 2px 0 2px #020202;
+    cursor: pointer;
+}
+
+.color-picker-list li.selected {
+    cursor: default;
+}
+
+.color-picker-list li.selected, .color-picker-list li:active, .color-picker-list li:focus, .color-picker-list li:hover {
+    box-shadow: 2px 0 5px #020202;
+}
+
+ul::after {
+    display: block;
+    clear: both;
+    content: "";
 }
 
 table.grid {
@@ -74,6 +131,6 @@ table.grid td {
 @media (min-width: 768px) {
     .landing-page {
         width: 40%;
-        margin-top: 100px;
+        margin-top: 150px;
     }
 }
