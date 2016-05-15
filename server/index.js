@@ -51,11 +51,13 @@ socket.on('connection', function (client) {
     client.on('login', function (userInfo, callback) {
         console.log("login");
         userInfo = userInfo.user.wc;
+        client.googleId = userInfo.Ka;
+
         var user = userInfo;
 
         function pushdata(user) {
             var randomReference = myFirebaseRef.push();
-            user.id = client.id;
+            user.id = client.googleId;
             //user.usercode = 'DH' + randomReference.key();
             user.score = 1212;
             randomReference.set(user);
@@ -74,8 +76,8 @@ socket.on('connection', function (client) {
 
             //TODO: Validate room population
 
-            players[client.id] = {
-                id: client.id,
+            players[client.googleId] = {
+                id: client.googleId,
                 userInfo: user,
                 angle: 0,
                 position: {
@@ -86,7 +88,7 @@ socket.on('connection', function (client) {
             };
 
             var data = {
-                userInfo: players[client.id]
+                userInfo: players[client.googleId]
             };
             callback ? callback(data) : '';
             client.emit('loginSuccess', data);
@@ -130,7 +132,7 @@ socket.on('connection', function (client) {
 
     client.on('joinGame', function (data, callback) {
         console.log("joinGame");
-        var player = players[client.id];
+        var player = players[client.googleId];
         //TODO: Handle rare case when color given from getColors is already taken by someone
         if (!player || !data.color || !validateColorUniqueness || playerPopulation >= appConfig.maxPlayers) {
             return false;
@@ -153,14 +155,14 @@ socket.on('connection', function (client) {
 
     client.on('clientStateUpdate', function (data) {
         console.log('clientStateUpdate', data);
-        if (!players[client.id]) {
+        if (!players[client.googleId]) {
             return false;
         }
-        players[client.id].angle = data.angle;
+        players[client.googleId].angle = data.angle;
     });
 
     client.on('disconnect', function () {
-        var player = players[client.id];
+        var player = players[client.googleId];
         if (player) {
             if (player.isInGame) {
                 playerPopulation--;
