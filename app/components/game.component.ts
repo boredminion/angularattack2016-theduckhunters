@@ -9,7 +9,7 @@ import {SocketEvents} from '../services/socket_events.enum';
 @Component({
     selector: "duck-hunter",
     template: require('../assets/templates/game.html'),
-    styles: [ require('../assets/css/style.css') ],
+    styles: [require('../assets/css/fonts.css'), require('../assets/css/reset.css'), require('../assets/css/style.css')],
     directives: [ScoreboardComponent],
     host: {'(window:keyup)': 'refreshPayload($event.keyCode)'}
 })
@@ -53,9 +53,9 @@ export class GameComponent {
      */
     public joinGame() {
         console.log(this.color);
-        if(this.color){
+        if (this.color) {
             this.socketService.getSocket().emit(SocketEvents[SocketEvents.joinGame], {
-                color:this.color
+                color: this.color
             }, (response)=> {
                 this.start = true;
                 this.payloadGrid = response.payloadGrid;
@@ -63,7 +63,7 @@ export class GameComponent {
                 this.players = response.players;
                 console.log("user successfully joined");
             });
-        }else{
+        } else {
             alert("please select a color");
         }
 

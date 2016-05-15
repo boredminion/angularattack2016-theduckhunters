@@ -1,6 +1,48 @@
-* {
-    margin: 0;
+body, html {
+    height: 100%;
     padding: 0;
+    margin: 0;
+}
+
+.main-container {
+    height: 93%;
+}
+
+.landing-page-container {
+    background: #e4d9c1 url("../images/background.jpg") no-repeat center center/contain;
+    height: 100%;
+    padding: 20px 10px;
+}
+
+.landing-page {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.landing-page h1 {
+    text-align: center;
+    font: 50px/60px 'visitor1', 'visitor2', 'arial';
+    margin: 10px 0;
+}
+
+.landing-page p {
+    font: 18px/25px 'visitor1', 'visitor2', 'arial';
+    text-align: center;
+}
+
+.btn {
+    text-indent: -9999px;
+    padding: 10px 100px;
+}
+
+.google-btn {
+    background: url("../images/google_sign_in.png") no-repeat center center;
+    display: inline-block;
+}
+
+.btn-block {
+    margin: 20px 20px 10px;
+    text-align: center;
 }
 
 table.grid {
@@ -25,6 +67,13 @@ table.grid td {
     position: absolute;
     width: 20px;
     height: 20px;
-    z-index:10;
+    z-index: 10;
     border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+    .landing-page {
+        width: 40%;
+        margin-top: 100px;
+    }
 }

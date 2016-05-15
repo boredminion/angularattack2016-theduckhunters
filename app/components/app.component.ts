@@ -15,7 +15,6 @@ import {TitleComponent} from './title.component';
 @Component({
     selector: "duck-hunter",
     template: `
-        <duck-title></duck-title>
         <router-outlet></router-outlet>
     `,
     directives: [ROUTER_DIRECTIVES, TitleComponent],

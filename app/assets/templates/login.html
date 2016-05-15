@@ -1,15 +1,18 @@
 <p>Doesn't matter if you are a first time user. Just enter your preferred username and password and GET STARTED :)</p>
 
-<p *ngIf="playerFull" class="error">{{playerFull}}</p>
-<form (submit)="login()">
-    <div class="form-field">
-        <label> Enter Your Name:</label>
-        <input type="text" name="username" placeholder="Username" [(ngModel)]="username">
-        <label> Enter Your Password:</label>
-        <input type="password" name="password" [(ngModel)]="userPassword">
-    </div>
+<div class="landing-page-container">
+    <div class="landing-page">
+        <h1>
+            The Duck Hunters
+        </h1>
 
-    <div class="form-field">
-        <button type="submit" value="begin">Begin</button>
+        <p>
+            Quack Quack Quack Quack Quack Quack Quack Quack Quack Quack Quack Quack Quack Quack Quack Quack Quack
+            Quack Quack Quack Quack Quack Quack Quack
+        </p>
+
+        <div class="btn-block">
+            <a href="javascript:void(0)" class="google-btn btn"> Sign In</a>
+        </div>
     </div>
-</form>
+</div>
