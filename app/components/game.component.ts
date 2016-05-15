@@ -6,20 +6,20 @@ import {ScoreboardComponent} from "./scoreboard.component";
 import {SocketService} from '../services/socket.service';
 import {SocketEvents} from '../services/socket_events.enum';
 
-
-//util
-import {AngleUtil} from '../util/AngleUtil';
-
 @Component({
+    selector: "duck-hunter",
     templateUrl: 'app/assets/templates/game.html',
     styleUrls: ['app/assets/css/style.css'],
     directives: [ScoreboardComponent],
-    host: {'(window:keydown)': 'refreshPayload($event.keyCode)'}
+    host: {'(window:keyup)': 'refreshPayload($event.keyCode)'}
 })
 
 export class GameComponent {
-
     playerRatings;
+    private leftArrow: number = 37;
+    private rightArrow: number = 39;
+    private upArrow: number = 38;
+    private downArrow: number = 40;
 
     private userInfo;
     private payloadGrid;
@@ -29,6 +29,7 @@ export class GameComponent {
     public playersArray = [];
 
     constructor(private socketService:SocketService) {
+
         this.socketService.getSocket().on(SocketEvents[SocketEvents.gameStateUpdate], (updatedInfo)=> {
             var changedPayload = updatedInfo.changesPayload;
             this.playerRatings = updatedInfo.playerRankings;
@@ -42,6 +43,7 @@ export class GameComponent {
         this.socketService.getSocket().on(SocketEvents[SocketEvents.playerConnected], (playerList)=> {
             this.players = playerList;
         });
+
     }
 
     /**
@@ -56,16 +58,28 @@ export class GameComponent {
             console.log("user successfully joined");
         });
     }
-
+    
     public refreshPayload(keyCode) {
         if (this.start) {
-            if (keyCode === 39) {
-                this.angle = AngleUtil.increaseRotation(this.angle);
-                this.updateSocket();
-            }
-            if (keyCode === 37) {
-                this.angle = AngleUtil.decreaseRotation(this.angle);
-                this.updateSocket();
+            switch (keyCode) {
+                case this.leftArrow:
+                    this.angle = 3;
+                    this.updateSocket();
+                    break;
+                case this.rightArrow:
+                    this.angle = 1;
+                    this.updateSocket();
+                    break;
+                case this.upArrow:
+                    this.angle = 0;
+                    this.updateSocket();
+                    break;
+                case this.downArrow:
+                    this.angle = 2;
+                    this.updateSocket();
+                    break;
+                default:
+                    break;
             }
         }
     }
