@@ -6,7 +6,7 @@
     <table class="grid" cellpadding="0" cellspacing="0">
         <tr *ngFor="#row of payloadGrid; #i=index">
             <td *ngFor="#column of row; #j=index" [ngClass]='{"has-color":players[payloadGrid[i][j]]}'
-                [ngStyle]="{'background-color': '#fff' && players[ payloadGrid[i][j] ] && players[ payloadGrid[i][j] ].color,'color':'#fff' && players[ payloadGrid[i][j] ] && players[ payloadGrid[i][j] ].color}"
+                [ngStyle]="{'background-color': '#fff' && players[ payloadGrid[i][j] ] && players[ payloadGrid[i][j] ].color}"
                     >
 
             </td>
