@@ -3,6 +3,7 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
+app.use(express.static('public'));
 var socket = require('socket.io')(server);
 var randomColor = require('randomcolor');
 var Firebase = require('firebase');
